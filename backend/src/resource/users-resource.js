@@ -17,6 +17,10 @@ var UsersResource = function(httpStatusCode, _, bcrypt, userDAO) {
         .then(function() {
             res.status(httpStatusCode.SUCCESS_CREATED)
             .json({ msg: 'the user has been created'});
+        })
+        .catch(function(reason) {
+            res.status(httpStatusCode.SERVER_ERROR_INTERNAL)
+            .json({ msg: 'sorry, an error has occurred while we were processing your request'});
         });
     }
 
@@ -42,6 +46,10 @@ var UsersResource = function(httpStatusCode, _, bcrypt, userDAO) {
 
             res.status(httpStatusCode.SUCCESS_OK)
             .json(userList);
+        })
+        .catch(function(reason) {
+            res.status(httpStatusCode.SERVER_ERROR_INTERNAL)
+            .json({ msg: 'sorry, an error has occurred while we were processing your request'});
         });
     }
 

@@ -90,7 +90,7 @@ describe('Login resource', function() {
 
         _userDAOMock.getPromiseFindOne()
         .then()
-        .catch(function(reason) {
+        .catch(function(reason) {            
             expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SERVER_ERROR_INTERNAL);
             expect(_resMock.json).toHaveBeenCalled();
 
