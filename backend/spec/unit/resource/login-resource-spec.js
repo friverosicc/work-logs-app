@@ -16,14 +16,9 @@ describe('Login resource', function() {
     var _userDAOMock;
 
     beforeEach(function() {
-        _userDAOMock = UserDAOMock(_user);
-
-        _resMock = {
-            json: function() {},
-            status: function() {}
-        };
-        spyOn(_resMock, 'json');
-        spyOn(_resMock, 'status').and.returnValue(_resMock);
+        _userDAOMock = UserDAOMock();
+        _userDAOMock.create(_user);
+        _resMock = require('./response-mock')();
 
         spyOn(bcrypt, 'compareSync').and.callFake(function(pass1, pass2) {
             if(pass1 === pass2)
@@ -41,8 +36,8 @@ describe('Login resource', function() {
 
         loginResource.login(req, _resMock);
 
-        var promise = _userDAOMock.getPromise();
-        promise.then(function() {
+        _userDAOMock.getPromiseFindOne()
+        .then(function() {
             expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_OK);
             expect(_resMock.json).toHaveBeenCalled();
 
@@ -59,8 +54,8 @@ describe('Login resource', function() {
 
         loginResource.login(req, _resMock);
 
-        var promise = _userDAOMock.getPromise();
-        promise.then(function() {
+        _userDAOMock.getPromiseFindOne()
+        .then(function() {
             expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.CLIENT_ERROR_UNAUTHORIZED);
             expect(_resMock.json).toHaveBeenCalled();
             done();
@@ -77,8 +72,8 @@ describe('Login resource', function() {
 
         loginResource.login(req, _resMock);
 
-        var promise = _userDAOMock.getPromise();
-        promise.then(function() {
+        _userDAOMock.getPromiseFindOne()
+        .then(function() {
             expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.CLIENT_ERROR_UNAUTHORIZED);
             expect(_resMock.json).toHaveBeenCalled();
 
@@ -93,8 +88,8 @@ describe('Login resource', function() {
 
         loginResource.login(req, _resMock);
 
-        var promise = _userDAOMock.getPromise();
-        promise.then()
+        _userDAOMock.getPromiseFindOne()
+        .then()
         .catch(function(reason) {
             expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SERVER_ERROR_INTERNAL);
             expect(_resMock.json).toHaveBeenCalled();
