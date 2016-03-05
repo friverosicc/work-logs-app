@@ -2,45 +2,28 @@
 
 var _ = require('underscore');
 var bcrypt = require('bcrypt');
+var UserDAOMock = require('../user-dao-mock');
 var LoginResource = require('../../../src/resource/login-resource');
 var httpStatusCode = require('../../../src/lib/http-status-code');
 
 describe('Login resource', function() {
     var loginResource;
-    var resMock;
-    var user = {
+    var _resMock;
+    var _user = {
         username: 'username',
         password: 'secretPassword'
     };
-    var promise;
-    var thereIsAProblemInTheServer;
+    var _userDAOMock;
 
     beforeEach(function() {
-        thereIsAProblemInTheServer = false;
+        _userDAOMock = UserDAOMock(_user);
 
-        var userDAOMock = {
-            findOne: function(username) {
-                promise = new Promise(function(resolve, reject) {
-                    if(thereIsAProblemInTheServer) {
-                        reject("problem with the database");
-                    } else {
-                        if(username === user.username)
-                            resolve(user);
-                        else
-                            resolve({});
-                    }
-                });
-
-                return promise;
-            }
-        };
-
-        resMock = {
+        _resMock = {
             json: function() {},
             status: function() {}
         };
-        spyOn(resMock, 'json');
-        spyOn(resMock, 'status').and.returnValue(resMock);
+        spyOn(_resMock, 'json');
+        spyOn(_resMock, 'status').and.returnValue(_resMock);
 
         spyOn(bcrypt, 'compareSync').and.callFake(function(pass1, pass2) {
             if(pass1 === pass2)
@@ -48,19 +31,20 @@ describe('Login resource', function() {
             return false;
         });
 
-        loginResource = LoginResource(httpStatusCode, _, bcrypt, userDAOMock);
+        loginResource = LoginResource(httpStatusCode, _, bcrypt, _userDAOMock);
     });
 
     it('should accept the login to a user with valid credentials', function(done) {
         var req = {
-            body: user
+            body: _user
         };
 
-        loginResource.login(req, resMock);
+        loginResource.login(req, _resMock);
 
+        var promise = _userDAOMock.getPromise();
         promise.then(function() {
-            expect(resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_OK);
-            expect(resMock.json).toHaveBeenCalled();
+            expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_OK);
+            expect(_resMock.json).toHaveBeenCalled();
 
             done();
         });
@@ -73,11 +57,12 @@ describe('Login resource', function() {
             }
         };
 
-        loginResource.login(req, resMock);
+        loginResource.login(req, _resMock);
 
+        var promise = _userDAOMock.getPromise();
         promise.then(function() {
-            expect(resMock.status).toHaveBeenCalledWith(httpStatusCode.CLIENT_ERROR_UNAUTHORIZED);
-            expect(resMock.json).toHaveBeenCalled();
+            expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.CLIENT_ERROR_UNAUTHORIZED);
+            expect(_resMock.json).toHaveBeenCalled();
             done();
         });
     });
@@ -85,31 +70,34 @@ describe('Login resource', function() {
     it('should reject the login to a user with wrong password', function(done) {
         var req = {
             body: {
-                username: user.username,
+                username: _user.username,
                 password: 'wrongPassword'
             }
         };
 
-        loginResource.login(req, resMock);
+        loginResource.login(req, _resMock);
 
+        var promise = _userDAOMock.getPromise();
         promise.then(function() {
-            expect(resMock.status).toHaveBeenCalledWith(httpStatusCode.CLIENT_ERROR_UNAUTHORIZED);
-            expect(resMock.json).toHaveBeenCalled();
+            expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.CLIENT_ERROR_UNAUTHORIZED);
+            expect(_resMock.json).toHaveBeenCalled();
 
             done();
         });
     });
 
     it('should give information when some problem appears in the process', function(done) {
-        thereIsAProblemInTheServer = true;
-        var req = { body: user };
+        _userDAOMock.setThrowAnError(true);
 
-        loginResource.login(req, resMock);
+        var req = { body: _user };
 
+        loginResource.login(req, _resMock);
+
+        var promise = _userDAOMock.getPromise();
         promise.then()
         .catch(function(reason) {
-            expect(resMock.status).toHaveBeenCalledWith(httpStatusCode.SERVER_ERROR_INTERNAL);
-            expect(resMock.json).toHaveBeenCalled();
+            expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SERVER_ERROR_INTERNAL);
+            expect(_resMock.json).toHaveBeenCalled();
 
             done();
         });
