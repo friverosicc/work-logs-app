@@ -1,15 +1,12 @@
 'use strict';
 
-var UserDAOMock = require('../user-dao-mock');
-var bcrypt = require('bcrypt');
 var _ = require('underscore');
 var httpStatusCode = require('../../../src/lib/http-status-code');
 var UsersResource = require('../../../src/resource/users-resource');
 
 describe('Users resource', function() {
     var usersResource;
-    var _userDAOMock;
-    var _resMock;
+    var _userDAOMock, _resMock, _bcryptMock;
     var _newUser;
 
     beforeEach(function() {
@@ -19,14 +16,11 @@ describe('Users resource', function() {
             preferredWorkingHoursPerDay: 8
         };
 
-        _userDAOMock = UserDAOMock();
+        _userDAOMock = require('../user-dao-mock')();
         _resMock = require('./response-mock')();
+        _bcryptMock = require('./bcrypt-mock')();
 
-        spyOn(bcrypt, 'hashSync').and.callFake(function(password) {
-            return 'passwordEncrypted';
-        });
-
-        usersResource = UsersResource(httpStatusCode, _, bcrypt, _userDAOMock);
+        usersResource = UsersResource(httpStatusCode, _, _bcryptMock, _userDAOMock);
     });
 
     it('should create a new user', function(done) {

@@ -1,32 +1,26 @@
 'use strict';
 
 var _ = require('underscore');
-var bcrypt = require('bcrypt');
-var UserDAOMock = require('../user-dao-mock');
 var LoginResource = require('../../../src/resource/login-resource');
 var httpStatusCode = require('../../../src/lib/http-status-code');
 
 describe('Login resource', function() {
     var loginResource;
-    var _resMock;
-    var _user = {
-        username: 'username',
-        password: 'secretPassword'
-    };
-    var _userDAOMock;
+    var _resMock, _userDAOMock, _bcryptMock;
+    var _user;
 
     beforeEach(function() {
-        _userDAOMock = UserDAOMock();
-        _userDAOMock.create(_user);
+        _user = {
+            username: 'username',
+            password: 'secretPassword'
+        };
+        
+        _bcryptMock = require('./bcrypt-mock')();
         _resMock = require('./response-mock')();
+        _userDAOMock = require('../user-dao-mock')();
+        _userDAOMock.create(_user);
 
-        spyOn(bcrypt, 'compareSync').and.callFake(function(pass1, pass2) {
-            if(pass1 === pass2)
-                return true;
-            return false;
-        });
-
-        loginResource = LoginResource(httpStatusCode, _, bcrypt, _userDAOMock);
+        loginResource = LoginResource(httpStatusCode, _, _bcryptMock, _userDAOMock);
     });
 
     it('should accept the login to a user with valid credentials', function(done) {
@@ -90,7 +84,7 @@ describe('Login resource', function() {
 
         _userDAOMock.getPromiseFindOne()
         .then()
-        .catch(function(reason) {            
+        .catch(function(reason) {
             expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SERVER_ERROR_INTERNAL);
             expect(_resMock.json).toHaveBeenCalled();
 
