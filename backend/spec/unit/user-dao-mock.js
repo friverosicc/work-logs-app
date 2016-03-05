@@ -24,7 +24,11 @@ var UserDAOMock = function() {
 
     function find(fiter) {
         _promiseFind = new Promise(function(resolve, reject) {
-            resolve(_users)
+            if(_throwAnError) {
+                reject("problem in the process");
+            } else {
+                resolve(_users)
+            }
         });
 
         return _promiseFind;

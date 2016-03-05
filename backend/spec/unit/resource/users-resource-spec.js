@@ -103,4 +103,50 @@ describe('Users resource', function() {
             });
         });
     });
+
+    it('should give information when some problem appears in the creation process', function(done) {
+        _userDAOMock.setThrowAnError(true);
+
+        var req = { body: _newUser };
+
+        usersResource.create(req, _resMock);
+
+        _userDAOMock.getPromiseFindOne()
+        .then()
+        .catch(function(reason) {
+            setTimeout(function() {
+                expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SERVER_ERROR_INTERNAL);
+                expect(_resMock.json).toHaveBeenCalled();
+
+                done();
+            }, 0);
+        });
+    });
+
+    it('should give information when some problem appears in the finding process', function(done) {
+        _userDAOMock.setThrowAnError(true);
+
+        var req = {
+            query: {
+                start: '0',
+                length: '15'
+            }
+        };
+
+        usersResource.find(req, _resMock);
+
+        _userDAOMock.getPromiseFindAmount()
+        .then(function() {
+            _userDAOMock.getPromiseFind()
+            .then()
+            .catch(function(reason) {
+                setTimeout(function() {
+                    expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SERVER_ERROR_INTERNAL);
+                    expect(_resMock.json).toHaveBeenCalled();
+
+                    done();
+                }, 0);
+            });
+        });
+    });
 });

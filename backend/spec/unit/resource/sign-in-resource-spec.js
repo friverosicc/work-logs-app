@@ -94,4 +94,23 @@ describe('Users resource', function() {
         });
     });
 
+    it('should give information when some problem appears in the registration process', function(done) {
+        _userDAOMock.setThrowAnError(true);
+
+        var req = { body: _newUser };
+
+        signInResource.signIn(req, _resMock);
+
+        _userDAOMock.getPromiseFindOne()
+        .then()
+        .catch(function(reason) {
+            setTimeout(function() {
+                expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SERVER_ERROR_INTERNAL);
+                expect(_resMock.json).toHaveBeenCalled();
+
+                done();
+            }, 0);
+        });
+    });
+
 });
