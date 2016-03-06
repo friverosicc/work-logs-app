@@ -1,17 +1,19 @@
 'use strict';
 
 var UserResource = function(httpStatusCode, _, bcrypt, userDAO) {
+    const _SERVER_ERROR_MESSAGE = { msg: 'sorry, an error has occurred while we were processing your request' };
+    const _REMOVE_SUCCESS_MESSAGE = { msg: 'the user has been deleted correctly' };
+    const _UPDATE_SUCCESS_MESSAGE = { msg: 'the user has been updated correctly' };
+
     function remove(req, res) {
         var username = req.params.username;
 
         userDAO.remove(username)
         .then(function() {
-            res.status(httpStatusCode.SUCCESS_OK)
-            .json({ msg: 'the user has been deleted correctly'});
+            _setStatusAndMakeResponse(res, httpStatusCode.SUCCESS_OK, _REMOVE_SUCCESS_MESSAGE);
         })
         .catch(function() {
-            res.status(httpStatusCode.SERVER_ERROR_INTERNAL)
-            .json({ msg: 'sorry, an error has occurred while we were processing your request'});
+            _setStatusAndMakeResponse(res, httpStatusCode.SERVER_ERROR_INTERNAL, _SERVER_ERROR_MESSAGE);
         });
     }
 
@@ -21,12 +23,10 @@ var UserResource = function(httpStatusCode, _, bcrypt, userDAO) {
 
         userDAO.update(username, user)
         .then(function() {
-            res.status(httpStatusCode.SUCCESS_OK)
-            .json({ msg: 'the user has been updated correctly'});
+            _setStatusAndMakeResponse(res, httpStatusCode.SUCCESS_OK, _UPDATE_SUCCESS_MESSAGE);
         })
         .catch(function() {
-            res.status(httpStatusCode.SERVER_ERROR_INTERNAL)
-            .json({ msg: 'sorry, an error has occurred while we were processing your request'});
+            _setStatusAndMakeResponse(res, httpStatusCode.SERVER_ERROR_INTERNAL, _SERVER_ERROR_MESSAGE);
         });
     }
 
@@ -35,13 +35,15 @@ var UserResource = function(httpStatusCode, _, bcrypt, userDAO) {
 
         userDAO.findOne(username)
         .then(function(user) {
-            res.status(httpStatusCode.SUCCESS_OK)
-            .json(user);
+            _setStatusAndMakeResponse(res, httpStatusCode.SUCCESS_OK, user);
         })
         .catch(function() {
-            res.status(httpStatusCode.SERVER_ERROR_INTERNAL)
-            .json({ msg: 'sorry, an error has occurred while we were processing your request'});
-        });;
+            _setStatusAndMakeResponse(res, httpStatusCode.SERVER_ERROR_INTERNAL, _SERVER_ERROR_MESSAGE);
+        });
+    }
+
+    function _setStatusAndMakeResponse(res, statusCode, data) {
+        res.status(statusCode).json(data);
     }
 
     return {

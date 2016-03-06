@@ -1,6 +1,9 @@
 'use strict';
 
 var UsersResource = function(httpStatusCode, _, bcrypt, userDAO) {
+    const _SERVER_ERROR_MESSAGE = { msg: 'sorry, an error has occurred while we were processing your request' };
+    const _DATA_ALREADY_EXISTS_MESSAGE = { msg: 'the user account already exitsts'};
+    const _CREATE_SUCCESS_MESSAGE = { msg: 'the user has been created' };
 
     function create(req, res) {
         var newUser = req.body;
@@ -10,17 +13,14 @@ var UsersResource = function(httpStatusCode, _, bcrypt, userDAO) {
             if(_.isUndefined(user)) {
                 return userDAO.create(newUser);
             } else {
-                res.status(httpStatusCode.CLIENT_ERROR_CONFLICT)
-                .json({ msg: 'the user account already exitsts'});
+                _setStatusAndMakeResponse(res, httpStatusCode.CLIENT_ERROR_CONFLICT, _DATA_ALREADY_EXISTS_MESSAGE);
             }
         })
         .then(function() {
-            res.status(httpStatusCode.SUCCESS_CREATED)
-            .json({ msg: 'the user has been created'});
+            _setStatusAndMakeResponse(res, httpStatusCode.SUCCESS_CREATED, _CREATE_SUCCESS_MESSAGE);
         })
         .catch(function(reason) {
-            res.status(httpStatusCode.SERVER_ERROR_INTERNAL)
-            .json({ msg: 'sorry, an error has occurred while we were processing your request'});
+            _setStatusAndMakeResponse(res, httpStatusCode.SERVER_ERROR_INTERNAL, _SERVER_ERROR_MESSAGE);
         });
     }
 
@@ -44,13 +44,15 @@ var UsersResource = function(httpStatusCode, _, bcrypt, userDAO) {
         .then(function(users) {
             userList.users = users;
 
-            res.status(httpStatusCode.SUCCESS_OK)
-            .json(userList);
+            _setStatusAndMakeResponse(res, httpStatusCode.SUCCESS_OK, userList);
         })
         .catch(function(reason) {
-            res.status(httpStatusCode.SERVER_ERROR_INTERNAL)
-            .json({ msg: 'sorry, an error has occurred while we were processing your request'});
+            _setStatusAndMakeResponse(res, httpStatusCode.SERVER_ERROR_INTERNAL, _SERVER_ERROR_MESSAGE);
         });
+    }
+
+    function _setStatusAndMakeResponse(res, statusCode, data) {
+        res.status(statusCode).json(data);
     }
 
     return {
