@@ -21,6 +21,10 @@ var UserResource = function(httpStatusCode, _, bcrypt, userDAO) {
         var username = req.params.username;
         var user = req.body;
 
+        if(!_.isUndefined(user.password)) {
+            user.password = bcrypt.hashSync(user.password);
+        }
+
         userDAO.update(username, user)
         .then(function() {
             _setStatusAndMakeResponse(res, httpStatusCode.SUCCESS_OK, _UPDATE_SUCCESS_MESSAGE);

@@ -36,9 +36,13 @@ describe('Work logs resource', function() {
 
         _workLogDAOMock.getPromiseCreate()
         .then(function() {
+            return _workLogDAOMock.findOne(_newWorkLog.id);
+        })
+        .then(function(workLog) {
             expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_CREATED);
             expect(_resMock.json).toHaveBeenCalled();
 
+            expect(workLog).toBe(_newWorkLog);
             done();
         });
     });

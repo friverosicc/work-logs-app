@@ -3,10 +3,23 @@
 var _ = require('underscore');
 
 var WorkDAOMock = function() {
-    var _promiseFind, _promiseFindAmount,
+    var _promiseFindOne, _promiseFind, _promiseFindAmount,
     _promiseCreate, _promiseRemove, _promiseUndate;
     var _throwAnError = false;
     var _works = [];
+
+    function findOne(id) {
+        _promiseFindOne = new Promise(function(resolve, reject) {
+            var workLog = _.find(_works, function(item) {
+                return item.id === id;
+            });            
+
+            resolve(workLog);
+
+        });
+
+        return _promiseFindOne;
+    }
 
     function find(paginator, filter) {
         _promiseFind = new Promise(function(resolve, reject) {
@@ -79,6 +92,10 @@ var WorkDAOMock = function() {
         return _promiseUpdate;
     }
 
+    function getPromiseFindOne() {
+        return _promiseFindOne;
+    }
+
     function getPromiseFind() {
         return _promiseFind;
     }
@@ -104,11 +121,13 @@ var WorkDAOMock = function() {
     }
 
     return {
+        findOne: findOne,
         find: find,
         findAmount: findAmount,
         create: create,
         remove: remove,
         update: update,
+        getPromiseFindOne: getPromiseFindOne,
         getPromiseFind: getPromiseFind,
         getPromiseFindAmount: getPromiseFindAmount,
         getPromiseCreate: getPromiseCreate,

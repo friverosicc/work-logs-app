@@ -35,8 +35,13 @@ describe('User resource', function() {
 
         _userDAOMock.getPromiseRemove()
         .then(function() {
+            return _userDAOMock.findOne(_user.username);
+        })
+        .then(function(user) {
             expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_OK);
             expect(_resMock.json).toHaveBeenCalled();
+
+            expect(user).toBeUndefined();
 
             done();
         });
@@ -84,8 +89,14 @@ describe('User resource', function() {
 
         _userDAOMock.getPromiseUpdate()
         .then(function() {
+            return _userDAOMock.findOne(_user.username);
+        })
+        .then(function(user) {
             expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_OK);
             expect(_resMock.json).toHaveBeenCalled();
+
+            userUpdated.password = 'passwordEncrypted';
+            expect(user).toBe(userUpdated);
 
             done();
         });
