@@ -7,6 +7,7 @@ var UsersResource = function(httpStatusCode, _, bcrypt, userDAO) {
 
     function create(req, res) {
         var newUser = req.body;
+        newUser.password = bcrypt.hashSync(newUser.password);
 
         userDAO.findOne(newUser.username)
         .then(function(user) {

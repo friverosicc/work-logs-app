@@ -1,6 +1,6 @@
 'use strict';
 
-var SignInResource = function(httpStatusCode, _, bycrypt, userDAO) {
+var SignInResource = function(httpStatusCode, _, bcrypt, userDAO) {
     const _SERVER_ERROR_MESSAGE = { msg: 'sorry, an error has occurred while we were processing your request' };
     const _DATA_ALREADY_EXISTS_MESSAGE = { msg: 'the user account already exitsts'};
     const _CREATE_SUCCESS_MESSAGE = { msg: 'the user has been created' };
@@ -8,6 +8,7 @@ var SignInResource = function(httpStatusCode, _, bycrypt, userDAO) {
     function signIn(req, res) {
         var newUser = req.body;
         newUser.role = 'regular';
+        newUser.password = bcrypt.hashSync(newUser.password);
 
         userDAO.findOne(newUser.username)
         .then(function(user) {

@@ -13,6 +13,7 @@ describe('Users resource', function() {
         _newUser = {
             username: 'newUsername',
             password: 'newPassword',
+            role: 'admin',
             preferredWorkingHoursPerDay: 8
         };
 
@@ -33,8 +34,16 @@ describe('Users resource', function() {
             return _userDAOMock.getPromiseCreate();
         })
         .then(function() {
+            return _userDAOMock.findOne(_newUser.username);
+        })
+        .then(function(user) {
             expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_CREATED);
             expect(_resMock.json).toHaveBeenCalled();
+
+            expect(user.role).toBe(user.role);
+            expect(user.password).toBe('passwordEncrypted');
+            expect(user.username).toBe(_newUser.username);
+            expect(user.preferredWorkingHoursPerDay).toBe(_newUser.preferredWorkingHoursPerDay);
 
             done();
         });

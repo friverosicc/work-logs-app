@@ -24,46 +24,27 @@ describe('Users resource', function() {
     });
 
     it('should sign in a new user', function(done) {
-        var newUser = {
-            username: 'newUsername',
-            password: 'newPassword',
-            preferredWorkingHoursPerDay: 8
-        };
-
         var req = { body: _newUser };
 
         signInResource.signIn(req, _resMock);
 
         _userDAOMock.getPromiseFindOne()
         .then(function() {
-            _userDAOMock.getPromiseCreate()
-            .then(function() {
-                setTimeout(function() {
-                    expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_CREATED);
-                    expect(_resMock.json).toHaveBeenCalled();
-
-                    done();
-                }, 0);
-            });
-        });
-    });
-
-    it('should sign in a user with regular role by default', function(done) {
-        var req = { body: _newUser };
-
-        signInResource.signIn(req, _resMock);
-
-        _userDAOMock.getPromiseFindOne()
+            return _userDAOMock.getPromiseCreate();
+        })
         .then(function() {
-            _userDAOMock.getPromiseCreate()
-            .then(function() {
-                _userDAOMock.findOne(_newUser.username)
-                .then(function(user) {
-                        expect(user.role).toBe('regular');
+            return _userDAOMock.findOne(_newUser.username);
+        })
+        .then(function(user) {
+            expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_CREATED);
+            expect(_resMock.json).toHaveBeenCalled();
 
-                        done();
-                });
-            });
+            expect(user.role).toBe('regular');
+            expect(user.password).toBe('passwordEncrypted');
+            expect(user.username).toBe(_newUser.username);
+            expect(user.preferredWorkingHoursPerDay).toBe(_newUser.preferredWorkingHoursPerDay);
+
+            done();
         });
     });
 
