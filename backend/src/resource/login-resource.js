@@ -37,5 +37,4 @@ var LoginResource = function(httpStatusCode, _, bcrypt, userDAO) {
     return { login: login };
 };
 
-
 module.exports = LoginResource;

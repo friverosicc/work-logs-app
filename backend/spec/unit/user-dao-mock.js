@@ -23,7 +23,7 @@ var UserDAOMock = function() {
         return _promiseFindOne;
     }
 
-    function find(fiter) {
+    function find(paginator) {
         _promiseFind = new Promise(function(resolve, reject) {
             if(_throwAnError) {
                 reject("problem in the process");

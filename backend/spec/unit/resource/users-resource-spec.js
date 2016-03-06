@@ -30,15 +30,13 @@ describe('Users resource', function() {
 
         _userDAOMock.getPromiseFindOne()
         .then(function() {
-            _userDAOMock.getPromiseCreate()
-            .then(function() {
-                setTimeout(function() {
-                    expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_CREATED);
-                    expect(_resMock.json).toHaveBeenCalled();
+            return _userDAOMock.getPromiseCreate();
+        })
+        .then(function() {
+            expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_CREATED);
+            expect(_resMock.json).toHaveBeenCalled();
 
-                    done();
-                }, 0);
-            });
+            done();
         });
     });
 
@@ -51,15 +49,10 @@ describe('Users resource', function() {
 
         _userDAOMock.getPromiseFindOne()
         .then(function() {
-            _userDAOMock.getPromiseCreate()
-            .then(function() {
-                setTimeout(function() {
-                    expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.CLIENT_ERROR_CONFLICT);
-                    expect(_resMock.json).toHaveBeenCalled();
+            expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.CLIENT_ERROR_CONFLICT);
+            expect(_resMock.json).toHaveBeenCalled();
 
-                    done();
-                }, 0);
-            });
+            done();
         });
     });
 
@@ -82,19 +75,18 @@ describe('Users resource', function() {
 
         _userDAOMock.getPromiseFindAmount()
         .then(function() {
-            _userDAOMock.getPromiseFind()
-            .then(function() {
-                var userListExpected = {
-                    total: amountOfUsers,
-                    users: users
-                };
+            return _userDAOMock.getPromiseFind();
+        })
+        .then(function() {
+            var userListExpected = {
+                total: amountOfUsers,
+                users: users
+            };
 
-                setTimeout(function() {
-                    expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_OK);
-                    expect(_resMock.json).toHaveBeenCalledWith(userListExpected);
-                    done();
-                }, 0);
-            });
+            expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_OK);
+            expect(_resMock.json).toHaveBeenCalledWith(userListExpected);
+
+            done();
         });
     });
 
@@ -107,7 +99,7 @@ describe('Users resource', function() {
 
         _userDAOMock.getPromiseFindOne()
         .then()
-        .catch(function(reason) {
+        .catch(function() {
             setTimeout(function() {
                 expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SERVER_ERROR_INTERNAL);
                 expect(_resMock.json).toHaveBeenCalled();
@@ -133,7 +125,7 @@ describe('Users resource', function() {
         .then(function() {
             _userDAOMock.getPromiseFind()
             .then()
-            .catch(function(reason) {
+            .catch(function() {
                 setTimeout(function() {
                     expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SERVER_ERROR_INTERNAL);
                     expect(_resMock.json).toHaveBeenCalled();
