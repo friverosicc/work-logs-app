@@ -4,7 +4,7 @@ var _ = require('underscore');
 
 var WorkDAOMock = function() {
     var _promiseFindOne, _promiseFind, _promiseFindAmount,
-    _promiseCreate, _promiseRemove, _promiseUndate;
+    _promiseCreate, _promiseRemove, _promiseUpdate;
     var _throwAnError = false;
     var _works = [];
 
@@ -12,7 +12,7 @@ var WorkDAOMock = function() {
         _promiseFindOne = new Promise(function(resolve, reject) {
             var workLog = _.find(_works, function(item) {
                 return item.id === id;
-            });            
+            });
 
             resolve(workLog);
 
@@ -74,14 +74,14 @@ var WorkDAOMock = function() {
         return _promiseRemove;
     }
 
-    function update(workId, work) {
+    function update(workId, workLog) {
         _promiseUpdate = new Promise(function(resolve, reject) {
             if(_throwAnError) {
                 reject("problem in the process");
             } else {
-                _.each(_works, function(item, index) {
+                _.each(_works, function(item, index) {                    
                     if(item.id === workId) {
-                        _works[index] = work;
+                        _works[index] = workLog;
                     }
                 });
 
