@@ -48,6 +48,7 @@ var WorkLogDAO = function(mongoDBConnection, ObjectID, _) {
 
         return collection.findAndRemove({ _id: new ObjectID(id) });
     }
+
     function update(id, workLog) {
         delete workLog._id;
         var collection = mongoDBConnection.getCollection(_collectionName);
