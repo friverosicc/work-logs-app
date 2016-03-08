@@ -5,8 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node spec/unit/jasmine.js"    
+    "test": "node spec/unit/jasmine.js"
   },
   "author": "Francisco Riveros",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "mongodb": "^2.1.7",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "jasmine": "^2.4.1"
+  }
 }
