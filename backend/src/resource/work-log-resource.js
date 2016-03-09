@@ -20,6 +20,8 @@ var WorkLogResource = function(httpStatusCode, workLogDAO) {
     function update(req, res) {
         var id = req.params.workLogId;
         var workLog = req.body;
+        workLog.date = new Date(workLog.date);
+        workLog.hours = parseInt(workLog.hours);
 
         workLogDAO.update(id, workLog)
         .then(function() {

@@ -39,6 +39,7 @@ var UserResource = function(httpStatusCode, _, bcrypt, userDAO) {
 
         userDAO.findOne(username)
         .then(function(user) {
+            delete user.password;
             _setStatusAndMakeResponse(res, httpStatusCode.SUCCESS_OK, user);
         })
         .catch(function() {

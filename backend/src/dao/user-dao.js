@@ -6,7 +6,7 @@ var UserDAO = function(mongoDBConnection, _) {
     function find(paginator) {
         var collection = mongoDBConnection.getCollection(_collectionName);
 
-        return collection.find({}, { password: 0 })
+        return collection.find({}, { password: 0, _id: 0 })
         .sort({ username: 1 })
         .skip(paginator.start)
         .limit(paginator.length)
@@ -22,7 +22,7 @@ var UserDAO = function(mongoDBConnection, _) {
     function findOne(username) {
         var collection = mongoDBConnection.getCollection(_collectionName);
 
-        return collection.findOne({ username: username });
+        return collection.findOne({ username: username }, { _id: 0 });
     }
 
     function create(user) {

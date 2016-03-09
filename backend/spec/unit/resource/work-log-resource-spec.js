@@ -12,7 +12,7 @@ describe('Work resource', function() {
         _username = 'username';
         _workLog = {
             id: '1',
-            date: new Date(2016, 2, 5),
+            date: '2016-03-08T03:00:00.000Z',
             hours: 6,
             note: 'lorem ipsum dolor sit amet'
         };
@@ -69,11 +69,11 @@ describe('Work resource', function() {
     });
 
     it('should update a work log', function(done) {
-        _workLogDAOMock.create(_username, _workLog);
+        _workLogDAOMock.create(_workLog);
 
         var workLogUpdated = {
             id: '1',
-            date: new Date(2016, 3, 5),
+            date: '2016-03-05T03:00:00.000Z',
             hours: 3.5,
             note: 'lorem ipsum'
         };

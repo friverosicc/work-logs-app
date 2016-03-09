@@ -8,7 +8,7 @@ var WorkDAOMock = function() {
     var _throwAnError = false;
     var _works = [];
 
-    function findOne(id) {
+    function findOne(id) {        
         _promiseFindOne = new Promise(function(resolve, reject) {
             var workLog = _.find(_works, function(item) {
                 return item.id === id;
@@ -45,7 +45,7 @@ var WorkDAOMock = function() {
         return _promiseFindAmount;
     }
 
-    function create(username, work) {
+    function create(work) {
         _promiseCreate = new Promise(function(resolve, reject) {
             if(_throwAnError) {
                 reject('problem in the process');
@@ -79,7 +79,7 @@ var WorkDAOMock = function() {
             if(_throwAnError) {
                 reject("problem in the process");
             } else {
-                _.each(_works, function(item, index) {                    
+                _.each(_works, function(item, index) {
                     if(item.id === workId) {
                         _works[index] = workLog;
                     }

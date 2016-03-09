@@ -21,6 +21,28 @@ var WorkLogDAO = function(mongoDBConnection, ObjectID, _) {
         return collection.find(match).count();
     }
 
+    function findSummarize(filter) {
+        var match = {
+            $match: _generateMatch(filter)
+        };
+        var group = {
+            $group: {
+                _id: '$date',
+                hours: { $sum: '$hours' },
+                notes: { $push: '$note' }
+            }
+        };
+
+        var sort = {
+            $sort: { _id: -1 }
+        };
+
+        var collection = mongoDBConnection.getCollection(_collectionName);
+
+        return collection.aggregate([match, group, sort])
+        .toArray();
+    }
+
     function _generateMatch(filter) {
         var match = { username: filter.username };
         var matchDateRange = {};
@@ -30,7 +52,7 @@ var WorkLogDAO = function(mongoDBConnection, ObjectID, _) {
         if(filter.dateTo)
             matchDateRange.$lte = filter.dateTo;
 
-        if(_.isEmpty(matchDateRange))
+        if(!_.isEmpty(matchDateRange))
             match.date = matchDateRange;
 
         return match;
@@ -65,6 +87,7 @@ var WorkLogDAO = function(mongoDBConnection, ObjectID, _) {
         find: find,
         findAmount: findAmount,
         findOne: findOne,
+        findSummarize: findSummarize,
         create: create,
         remove: remove,
         update: update

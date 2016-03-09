@@ -13,7 +13,7 @@ describe('Work logs resource', function() {
         _username = 'username';
         _newWorkLog = {
             id: '1',
-            date: new Date(2016, 2, 5),
+            date: '2016-03-08T03:00:00.000Z',
             hours: 6,
             note: 'lorem ipsum dolor sit amet'
         };
@@ -75,7 +75,7 @@ describe('Work logs resource', function() {
         var amountOfWorkLogs = 5;
         var workLogs = [];
         for(var i=0; i<amountOfWorkLogs; i++) {
-            _workLogDAOMock.create(_username, _newWorkLog);
+            _workLogDAOMock.create(_newWorkLog);
             workLogs.push(_newWorkLog);
         }
 

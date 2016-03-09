@@ -2,17 +2,19 @@
 
 var WorksResource = function(httpStatusCode, _, workLogDAO) {
     const _SERVER_ERROR_MESSAGE = { msg: 'sorry, an error has occurred while we were processing your request' };
-    const _CREATE_SUCCESS_MESSAGE = { msg: 'the user has been created' };
+    const _CREATE_SUCCESS_MESSAGE = { msg: 'the work log has been created' };
 
     function create(req, res) {
-        var username = req.params.username;
         var workLog = req.body;
+        workLog.username = req.params.username;
+        workLog.date = new Date(workLog.date);
+        workLog.hours = parseInt(workLog.hours);
 
-        workLogDAO.create(username, workLog)
+        workLogDAO.create(workLog)
         .then(function() {
             _setStatusAndMakeResponse(res, httpStatusCode.SUCCESS_CREATED, _CREATE_SUCCESS_MESSAGE);
         })
-        .catch(function() {
+        .catch(function(reason) {
             _setStatusAndMakeResponse(res, httpStatusCode.SERVER_ERROR_INTERNAL, _SERVER_ERROR_MESSAGE);
         });
     }
@@ -24,8 +26,8 @@ var WorksResource = function(httpStatusCode, _, workLogDAO) {
         };
         var filter = {
             username: req.params.username,
-            dateFrom: req.query.dateFrom,
-            dateTo: req.query.dateTo
+            dateFrom: (req.query.dateFrom) ? new Date(req.query.dateFrom) : undefined,
+            dateTo: (req.query.dateTo) ? new Date(req.query.dateTo) : undefined
         };
 
         var workLogsList = {
@@ -49,13 +51,30 @@ var WorksResource = function(httpStatusCode, _, workLogDAO) {
         });
     }
 
+    function findSummarize(req, res) {
+        var filter = {
+            username: req.params.username,
+            dateFrom: (req.query.dateFrom) ? new Date(req.query.dateFrom) : undefined,
+            dateTo: (req.query.dateTo) ? new Date(req.query.dateTo) : undefined
+        };
+
+        workLogDAO.findSummarize(filter)        
+        .then(function(summarizedData) {
+            _setStatusAndMakeResponse(res, httpStatusCode.SUCCESS_OK, summarizedData);
+        })
+        .catch(function() {
+            _setStatusAndMakeResponse(res, httpStatusCode.SERVER_ERROR_INTERNAL, _SERVER_ERROR_MESSAGE);
+        });
+    }
+
     function _setStatusAndMakeResponse(res, statusCode, data) {
         res.status(statusCode).json(data);
     }
 
     return {
         create: create,
-        find: find
+        find: find,
+        findSummarize: findSummarize
     };
 };
 
