@@ -6,7 +6,7 @@ var UserDAO = function(mongoDBConnection, _) {
     function find(paginator) {
         var collection = mongoDBConnection.getCollection(_collectionName);
 
-        return collection.find()
+        return collection.find({}, { password: 0 })
         .sort({ username: 1 })
         .skip(paginator.start)
         .limit(paginator.length)

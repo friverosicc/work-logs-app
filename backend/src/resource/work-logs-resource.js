@@ -18,12 +18,12 @@ var WorksResource = function(httpStatusCode, _, workLogDAO) {
     }
 
     function find(req, res) {
-        var username = req.params.username;
         var paginator = {
             start: parseInt(req.query.start),
             length: parseInt(req.query.length)
         };
         var filter = {
+            username: req.params.username,
             dateFrom: req.query.dateFrom,
             dateTo: req.query.dateTo
         };
@@ -46,7 +46,7 @@ var WorksResource = function(httpStatusCode, _, workLogDAO) {
         })
         .catch(function() {
             _setStatusAndMakeResponse(res, httpStatusCode.SERVER_ERROR_INTERNAL, _SERVER_ERROR_MESSAGE);
-        });;
+        });
     }
 
     function _setStatusAndMakeResponse(res, statusCode, data) {

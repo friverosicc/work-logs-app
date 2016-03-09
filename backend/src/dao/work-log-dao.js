@@ -22,13 +22,18 @@ var WorkLogDAO = function(mongoDBConnection, ObjectID, _) {
     }
 
     function _generateMatch(filter) {
+        var match = { username: filter.username };
         var matchDateRange = {};
+
         if(filter.dateFrom)
             matchDateRange.$gte = filter.dateFrom;
         if(filter.dateTo)
             matchDateRange.$lte = filter.dateTo;
 
-        return (_.isEmpty(matchDateRange)) ? { } : { date: matchDateRange };
+        if(_.isEmpty(matchDateRange))
+            match.date = matchDateRange;
+
+        return match;
     }
 
     function findOne(id) {
