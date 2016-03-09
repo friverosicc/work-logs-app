@@ -16,6 +16,8 @@ var UserDAOMock = function() {
                 var user = _.find(_users, function(user) {
                     return user.username === username;
                 });
+
+                user = (_.isUndefined(user)) ? null : user;
                 resolve(user);
             }
         });

@@ -22,7 +22,7 @@ var UserResource = function(httpStatusCode, _, bcrypt, userDAO) {
         var user = req.body;
 
         if(!_.isUndefined(user.password)) {
-            user.password = bcrypt.hashSync(user.password);
+            user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(), null);
         }
 
         userDAO.update(username, user)

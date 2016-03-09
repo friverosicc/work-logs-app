@@ -41,7 +41,7 @@ describe('User resource', function() {
             expect(_resMock.status).toHaveBeenCalledWith(httpStatusCode.SUCCESS_OK);
             expect(_resMock.json).toHaveBeenCalled();
 
-            expect(user).toBeUndefined();
+            expect(user).toBeNull();
 
             done();
         });

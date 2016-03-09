@@ -7,11 +7,11 @@ var UsersResource = function(httpStatusCode, _, bcrypt, userDAO) {
 
     function create(req, res) {
         var newUser = req.body;
-        newUser.password = bcrypt.hashSync(newUser.password);
+        newUser.password = bcrypt.hashSync(newUser.password, bcrypt.genSaltSync(), null);
 
         userDAO.findOne(newUser.username)
         .then(function(user) {
-            if(_.isUndefined(user)) {
+            if(_.isNull(user)) {
                 return userDAO.create(newUser);
             } else {
                 _setStatusAndMakeResponse(res, httpStatusCode.CLIENT_ERROR_CONFLICT, _DATA_ALREADY_EXISTS_MESSAGE);
@@ -28,7 +28,7 @@ var UsersResource = function(httpStatusCode, _, bcrypt, userDAO) {
     function find(req, res) {
         var paginator = {
             start: parseInt(req.query.start),
-            lenth: parseInt(req.query.length)
+            length: parseInt(req.query.length)
         };
 
         var userList = {

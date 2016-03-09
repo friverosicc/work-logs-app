@@ -3,16 +3,16 @@
 var SignInResource = function(httpStatusCode, _, bcrypt, userDAO) {
     const _SERVER_ERROR_MESSAGE = { msg: 'sorry, an error has occurred while we were processing your request' };
     const _DATA_ALREADY_EXISTS_MESSAGE = { msg: 'the user account already exitsts'};
-    const _CREATE_SUCCESS_MESSAGE = { msg: 'the user has been created' };
+    const _CREATE_SUCCESS_MESSAGE = { msg: 'the user has been created correctly' };
 
     function signIn(req, res) {
         var newUser = req.body;
         newUser.role = 'regular';
-        newUser.password = bcrypt.hashSync(newUser.password);
+        newUser.password = bcrypt.hashSync(newUser.password, bcrypt.genSaltSync());
 
         userDAO.findOne(newUser.username)
-        .then(function(user) {
-            if(_.isUndefined(user)) {
+        .then(function(user) {            
+            if(_.isNull(user)) {
                 return userDAO.create(newUser);
             } else {
                 _setStatusAndMakeResponse(res, httpStatusCode.CLIENT_ERROR_CONFLICT, _DATA_ALREADY_EXISTS_MESSAGE);
