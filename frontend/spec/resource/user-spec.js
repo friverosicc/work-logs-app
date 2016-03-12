@@ -30,8 +30,7 @@ describe('user resource', function() {
         $httpBackend.expectPOST(_apiURLs.login, userLogin)
         .respond(200, 'valid credentials');
 
-        _userResource.login(userLogin);
-
+        _userResource.login(_user.username, _user.password);        
         $httpBackend.flush();
     });
 

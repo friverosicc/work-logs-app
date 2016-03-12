@@ -8,7 +8,8 @@
         'apiURLs',
         function($http, $interpolate, apiURLs) {
 
-        function login(user) {
+        function login(username, password) {
+            var user = { username: username, password: password };
             return $http.post(apiURLs.login, user);
         }
 
@@ -36,7 +37,7 @@
         }
 
         function findOne(username) {
-            return $http.get('http://localhost:8080/users/'+username);
+            return $http.get($interpolate(apiURLs.user)({ username: username }));
         }
 
         return {
