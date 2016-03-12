@@ -1,32 +1,38 @@
 (function() {
     'use strict';
 
-    angular.module('demo-app.resource.user', [])
-    .factory('userResource', ['$http', function($http) {
+    angular.module('demo-app.resource.user', ['demo-app.common.api.config'])
+    .factory('userResource', [
+        '$http',
+        '$interpolate',
+        'apiURLs',
+        function($http, $interpolate, apiURLs) {
 
         function login(user) {
-            return $http.post('http://localhost:8080/login', user);
+            return $http.post(apiURLs.login, user);
         }
 
         function signIn(user) {
-            return $http.post('http://localhost:8080/sign-in', user);
+            return $http.post(apiURLs.signIn, user);
         }
 
         function create(user) {
-            return $http.post('http://localhost:8080/users', user);
+            return $http.post(apiURLs.users, user);
         }
 
         function update(username, user) {
-            return $http.put('http://localhost:8080/users/'+username, user);
+            var url = $interpolate(apiURLs.user)({ username: username });
+            return $http.put(url, user);
         }
 
         function remove(username) {
-            return $http.delete('http://localhost:8080/users/'+username);
+            var url = $interpolate(apiURLs.user)({ username: username });
+            return $http.delete(url);
         }
 
         function find(paginator) {
             var params = paginator;
-            return $http.get('http://localhost:8080/users', { params: params });
+            return $http.get(apiURLs.users, { params: params });
         }
 
         function findOne(username) {
