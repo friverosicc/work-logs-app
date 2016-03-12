@@ -1,0 +1,27 @@
+{
+  "name": "frontend",
+  "description": "Web client application that stores user work logs",
+  "main": "index.js",
+  "authors": [
+    "Francisco Riveros"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.5.0",
+    "angular-ui-router": "~0.2.18",
+    "angular-messages": "~1.5.0",
+    "material-design-icons": "~2.2.1",
+    "animate.css": "~3.5.1",
+    "angular-material": "~1.0.6",
+    "angular-base64": "~2.0.5"
+  }
+}
