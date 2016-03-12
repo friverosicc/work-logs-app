@@ -10,6 +10,7 @@
         users: _baseURL + 'users',
         user: _baseURL + 'users/{{username}}',
         workLogs: _baseURL + 'users/{{username}}/work-logs',
-        workLog: _baseURL + 'users/{{username}}/work-logs/{{workLogId}}'
+        workLog: _baseURL + 'users/{{username}}/work-logs/{{workLogId}}',
+        workLogsSummarize: _baseURL + 'users/{{username}}/work-logs/summarize'
     });
 })();
