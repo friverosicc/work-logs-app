@@ -3,11 +3,10 @@
 describe('Work log', function() {
     var _username, _workLog;
     var $interpolate, $httpBackend;
-    var apiURLs, workLogResource, paginator;
+    var apiURLs, workLogResource;
 
     beforeEach(function() {
         module('demo-app.resource.work-log');
-        module('demo-app.common.paginator');
     });
 
     beforeEach(function() {
@@ -16,10 +15,7 @@ describe('Work log', function() {
             $httpBackend = $injector.get('$httpBackend');
             workLogResource = $injector.get('workLogResource');
             apiURLs = $injector.get('apiURLs');
-            paginator = $injector.get('paginator');
         });
-
-        paginator.init(0, 15, 30);
 
         _workLog = {
             _id: '1',
@@ -62,26 +58,28 @@ describe('Work log', function() {
 
     it('should call to find work logs without filter', function() {
         var filter = {};
+        var page = { start: 0, length: 15 };
         var url = $interpolate(apiURLs.workLogs)({ username: _workLog.username })
-                + '?length=' + paginator.getRange() + '&start=' + paginator.getStart();
+                + '?length=' + page.length + '&start=' + page.start;
         $httpBackend.expectGET(url)
         .respond(200, '');
 
-        workLogResource.find(_workLog.username, paginator, filter);
+        workLogResource.find(_workLog.username, page, filter);
 
         $httpBackend.flush();
     });
 
     it('should call to find work logs with filter', function() {
         var filter = { dateFrom: new Date(2016, 3, 1), dateTo: new Date(2016, 3, 20) };
+        var page = { start: 0, length: 15 };
         var url = $interpolate(apiURLs.workLogs)({ username: _workLog.username })
                 + '?dateFrom=' + filter.dateFrom.getTime() + '&dateTo=' + filter.dateTo.getTime()
-                + '&length=' + paginator.getRange() + '&start=' + paginator.getStart();
+                + '&length=' + page.length + '&start=' + page.start;
 
         $httpBackend.expectGET(url)
         .respond(200, {});
 
-        workLogResource.find(_workLog.username, paginator, filter);
+        workLogResource.find(_workLog.username, page, filter);
 
         $httpBackend.flush();
     });

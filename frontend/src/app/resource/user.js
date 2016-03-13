@@ -31,8 +31,8 @@
             return $http.delete(url);
         }
 
-        function find(paginator) {
-            var params = { start: paginator.getStart(), length: paginator.getRange() };
+        function find(page) {
+            var params = { start: page.start, length: page.length };
             return $http.get(apiURLs.users, { params: params });
         }
 

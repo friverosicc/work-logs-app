@@ -29,12 +29,9 @@
                 return $http.delete(url);
             }
 
-            function find(username, paginator, filter) {
+            function find(username, page, filter) {
                 var url = _templateURL({ username: username });
-                var params = {
-                    start: paginator.getStart(),
-                    length: paginator.getRange()
-                };
+                var params = page;
 
                 if(angular.isDefined(filter.dateTo))
                     params.dateTo = filter.dateTo.getTime();

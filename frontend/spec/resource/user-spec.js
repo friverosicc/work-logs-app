@@ -2,7 +2,7 @@
 
 describe('user resource', function() {
     var $httpBackend, $interpolate;
-    var apiURLs, userResource, paginator;
+    var apiURLs, userResource;
     var _user = {
         username: 'username',
         password: 'password',
@@ -10,10 +10,7 @@ describe('user resource', function() {
         preferredWorkingHoursPerDay: '8'
     };
 
-    beforeEach(function() {
-        module('demo-app.resource.user');
-        module('demo-app.common.paginator');
-    });
+    beforeEach(module('demo-app.resource.user'));
 
     beforeEach(function() {
         inject(function($injector) {
@@ -21,10 +18,7 @@ describe('user resource', function() {
             $httpBackend = $injector.get('$httpBackend');
             userResource = $injector.get('userResource');
             apiURLs = $injector.get('apiURLs');
-            paginator = $injector.get('paginator');
         });
-
-        paginator.init(0, 15, 45);
     });
 
     it('should call to login', function() {
@@ -79,10 +73,11 @@ describe('user resource', function() {
     });
 
     it('should call to find users', function() {
-        $httpBackend.expectGET(apiURLs.users + '?length='+paginator.getRange()+'&start='+paginator.getStart())
+        var page = { start: 0, length: 15 };
+        $httpBackend.expectGET(apiURLs.users + '?length='+page.length+'&start='+page.start)
         .respond(200, {});
 
-        userResource.find(paginator);
+        userResource.find(page);
 
         $httpBackend.flush();
     });
