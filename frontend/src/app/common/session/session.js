@@ -9,7 +9,7 @@
             _user = user;
         }
 
-        function clear() {
+        function clean() {
             _user = {};
         }
 
@@ -19,7 +19,7 @@
 
         return {
             save: save,
-            clear: clear,
+            clean: clean,
             getUser: getUser
         };
     }]);
