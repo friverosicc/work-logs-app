@@ -123,7 +123,8 @@ gulp.task('connect', function() {
 gulp.task('watch-mode', function() {
 	var jsWatcher = gulp.watch(['src/app/**/*.js'], ['js']);
 	var cssWatcher = gulp.watch('src/style/**/*.scss', ['css']);
-    var htmlWatcher = gulp.watch(['src/**/*.html'], ['tpl', 'html']);
+    var htmlWatcher = gulp.watch('src/index.html', ['html']);
+    var tplWatcher = gulp.watch('src/controller/**/*.tpl.html', ['tpl']);
 
 	function changeNotification(event) {
 		console.log('File', event.path, 'was', event.type, ', running tasks...');
@@ -132,6 +133,7 @@ gulp.task('watch-mode', function() {
 	jsWatcher.on('change', changeNotification);
 	cssWatcher.on('change', changeNotification);
 	htmlWatcher.on('change', changeNotification);
+    tplWatcher.on('change', changeNotification);
 });
 
 gulp.task('tdd', function(done) {

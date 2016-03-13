@@ -25,6 +25,7 @@
             $urlRouterProvider.otherwise('/');
 
             $stateProvider
+            // Login
             .state('login', {
                 url: '/',
                 views: {
@@ -34,12 +35,39 @@
                     }
                 }
             })
+            // Sign in
             .state('sign-in', {
                 url: '/sign-in',
                 views: {
                     'app-view': {
                         templateUrl: 'controller/sign-in/sign-in.tpl.html',
                         controller: 'signInController'
+                    }
+                }
+            })
+            // Logout
+            .state('logout', {
+                url: '/logout',
+                views: {
+                    'app-view': {
+                        controller: 'logoutController'
+                    }
+                }
+            })
+            .state('app', {
+                views: {
+                    'app-view': {
+                        templateUrl: 'controller/base/base.tpl.html',
+                        controller: 'baseController'
+                    }
+                }
+            })
+            .state('app.work-logs', {
+                url: '/users/:username/work-logs',
+                views: {
+                    'app-main-content': {
+                        templateUrl: 'controller/work-log/work-log.tpl.html',
+                        controller: 'workLogController'
                     }
                 }
             });

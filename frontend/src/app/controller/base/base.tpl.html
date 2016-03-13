@@ -1,0 +1,30 @@
+
+<md-toolbar class="md-sidenav-left md-whiteframe-z3 header-app"
+			style="padding-left:60px;"
+			layout="row">
+    <div class="md-toolbar-tools" layout-align="center">
+        <div flex="90" layout>
+            <h2 style="line-height:40px;">
+                <span>
+                    {{user.username}}
+                </span>
+            </h2>
+
+            <span flex></span>
+            <md-button class="md-icon-button" ui-sref="logout">
+                <md-tooltip>Exit</md-tooltip>
+                <md-icon class="material-icons">exit_to_app</md-icon>
+            </md-button>
+        </div>
+    </div>
+</md-toolbar>
+
+<div layout="row" flex style="overflow: hidden;">
+    <md-content ui-view="app-main-content"
+				layout="column"
+				layout-padding
+				flex
+				class="main-content"
+				style="background-color: {{ backgroundColor }}">
+	</md-content>
+</div>
