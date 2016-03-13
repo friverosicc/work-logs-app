@@ -32,8 +32,8 @@
             function find(username, paginator, filter) {
                 var url = _templateURL({ username: username });
                 var params = {
-                    start: paginator.start,
-                    length: paginator.length
+                    start: paginator.getStart(),
+                    length: paginator.getRange()
                 };
 
                 if(angular.isDefined(filter.dateTo))
@@ -49,7 +49,7 @@
                 var url = _templateURLSummarize({ username: username });
 
                 var params = {};
-                
+
                 if(angular.isDefined(filter.dateTo))
                     params.dateTo = filter.dateTo.getTime();
 

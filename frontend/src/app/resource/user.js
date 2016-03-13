@@ -32,7 +32,7 @@
         }
 
         function find(paginator) {
-            var params = paginator;
+            var params = { start: paginator.getStart(), length: paginator.getRange() };
             return $http.get(apiURLs.users, { params: params });
         }
 

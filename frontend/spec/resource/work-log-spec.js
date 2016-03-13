@@ -3,16 +3,23 @@
 describe('Work log', function() {
     var _username, _workLog;
     var $interpolate, $httpBackend;
-    var apiURLs, workLogResource;
+    var apiURLs, workLogResource, paginator;
 
-    beforeEach(module('demo-app.resource.work-log'));
+    beforeEach(function() {
+        module('demo-app.resource.work-log');
+        module('demo-app.common.paginator');
+    });
+
     beforeEach(function() {
         inject(function($injector) {
             $interpolate = $injector.get('$interpolate');
             $httpBackend = $injector.get('$httpBackend');
             workLogResource = $injector.get('workLogResource');
             apiURLs = $injector.get('apiURLs');
+            paginator = $injector.get('paginator');
         });
+
+        paginator.init(0, 15, 30);
 
         _workLog = {
             _id: '1',
@@ -54,10 +61,9 @@ describe('Work log', function() {
     });
 
     it('should call to find work logs without filter', function() {
-        var paginator = { start: 0, length: 15 };
         var filter = {};
         var url = $interpolate(apiURLs.workLogs)({ username: _workLog.username })
-                + '?length=' + paginator.length + '&start=' + paginator.start;
+                + '?length=' + paginator.getRange() + '&start=' + paginator.getStart();
         $httpBackend.expectGET(url)
         .respond(200, '');
 
@@ -68,10 +74,9 @@ describe('Work log', function() {
 
     it('should call to find work logs with filter', function() {
         var filter = { dateFrom: new Date(2016, 3, 1), dateTo: new Date(2016, 3, 20) };
-        var paginator = { start: 0, length: 15 };
         var url = $interpolate(apiURLs.workLogs)({ username: _workLog.username })
                 + '?dateFrom=' + filter.dateFrom.getTime() + '&dateTo=' + filter.dateTo.getTime()
-                + '&length=' + paginator.length + '&start=' + paginator.start;
+                + '&length=' + paginator.getRange() + '&start=' + paginator.getStart();
 
         $httpBackend.expectGET(url)
         .respond(200, {});
