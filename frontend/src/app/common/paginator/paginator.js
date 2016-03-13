@@ -66,7 +66,7 @@
 
 				if(_end > 0) {
 					if(_end < _range) {
-						if(_total == 0)
+						if(_total === 0)
 							_end = 0;
 						else
 							_end = _range;

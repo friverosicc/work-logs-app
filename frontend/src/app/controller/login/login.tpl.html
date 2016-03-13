@@ -1,0 +1,50 @@
+<div 	layout="row"
+		layout-align="center center"
+		layout-fill
+		flex
+		class="login-screen">
+
+	<div layout="column" flex-gt-md="30" flex-md="50" flex="90">
+		<form name="loginForm">
+			<div layout="row" layout-align="center center">
+				<h1>WELCOME</h1>
+			</div>
+			<md-input-container layout="column">
+				<label>Username</label>
+				<input 	type="text"
+						name="username"
+						required
+						autofocus
+						ng-model="user.username"/>
+				<div ng-messages="loginForm.username.$error">
+					<div ng-message="required">Required</div>
+				</div>
+			</md-input-container>
+
+			<md-input-container layout="column">
+				<label>Password</label>
+				<input 	type="password"
+						name="password"
+						required
+						ng-model="user.password"/>
+				<div ng-messages="loginForm.password.$error" ng-show="loginForm.password.$dirty">
+					<div ng-message="required">Required</div>
+					<div ng-message="invalidLogin">{{error}}</div>
+				</div>
+			</md-input-container>
+
+			<div layout="column" layout-padding>
+				<a ui-sref="sign-in">Don't have an account? Sign up.</a>
+			</div>
+
+			<div layout="row" layout-wrap>
+				<md-button 	class="md-primary md-raised"
+							ng-disabled="isNotPossibleTryToLogin()"
+							ng-click="login()"
+							style="margin: 0 0 0 0 !important; width: 100%;">
+					Login
+				</md-button>
+			</div>
+		</form>
+	</div>
+</div>

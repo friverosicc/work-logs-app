@@ -1,0 +1,63 @@
+
+<div 	layout="row"
+		layout-align="center center"
+		layout-fill
+		flex
+		class="login-screen">
+
+	<div layout="column" flex="30" flex-sm="90" flex-md="50">
+		<form name="userForm">
+			<div layout="row" layout-align="center center">
+				<h1>CREATE YOUR ACCOUNT</h1>
+			</div>
+			<md-input-container layout="column">
+				<label>Username</label>
+				<input 	type="text"
+						name="username"
+						autofocus
+						required
+						ng-model="user.username"/>
+				<div ng-messages="userForm.username.$error">
+					<div ng-message="required">Required</div>
+				</div>
+			</md-input-container>
+
+			<md-input-container layout="column">
+				<label>Password</label>
+				<input 	type="password"
+						name="password"
+						required
+						ng-model="user.password"/>
+				<div ng-messages="userForm.password.$error">
+					<div ng-message="required">Required</div>
+				</div>
+			</md-input-container>
+
+            <md-input-container layout="column">
+				<label>Preferred working hours per day</label>
+				<input 	type="number"
+						name="preferredWorkingHoursPerDay"
+						required
+						ng-model="user.preferredWorkingHoursPerDay"/>
+				<div ng-messages="userForm.preferredWorkingHoursPerDay.$error" ng-show="userForm.preferredWorkingHoursPerDay.$dirty">
+					<div ng-message="required">Required</div>
+                    <div ng-message="serverError">{{error}}</div>
+				</div>
+			</md-input-container>
+
+			<div layout="row" layout-wrap>
+				<md-button 	class="md-primary md-raised"
+							ng-disabled="!isPossibleTryToCreateAccount()"
+							ng-click="signIn()"
+							flex
+							style="margin: 0 0 0 0 !important">
+					create account
+				</md-button>
+			</div>
+
+            <br/>
+
+            <a class="" ui-sref="login">Go back to login.</a>
+		</form>
+	</div>
+</div>

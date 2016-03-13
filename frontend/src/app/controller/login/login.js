@@ -28,8 +28,12 @@
                 $scope.loginForm.password.$error = { invalidLogin: true };
             }
 
-            $scope.isPossibleTryToLogin = function() {
+            function _isPossibleTryToLogin() {
                 return $scope.loginForm.$valid && $scope.loginForm.$dirty;
+            }
+
+            $scope.isNotPossibleTryToLogin = function() {
+                return !_isPossibleTryToLogin();
             };
         }
     ]);

@@ -45,7 +45,7 @@ gulp.task('js', function() {
     if(!debug)
         jsTask.pipe(uglify());
 
-    jsTask.pipe(concat('demo-project-app.js'))
+    jsTask.pipe(concat('demo-app.js'))
     .pipe(gulp.dest('dist'))
     .pipe(connect.reload());
 });
@@ -76,8 +76,8 @@ gulp.task('tpl', function() {
     var tplTask = gulp.src(['src/app/**/*.tpl.html']);
 
     tplTask.pipe(htmlmin({ collapseWhitespace: true }))
-    .pipe(ngTemplate('demo-project-tpl'))
-    .pipe(concat('demo-project-tpl.js'))
+    .pipe(ngTemplate('demo-app-tpl'))
+    .pipe(concat('demo-app-tpl.js'))
     .pipe(gulp.dest('dist'))
     .pipe(connect.reload());
 });
@@ -116,10 +116,7 @@ gulp.task('connect', function() {
 	connect.server({
         root: 'dist',
 		livereload: true,
-		port: 8082,
-		middleware: function(connect, opt) {
-			return [ historyApiFallback() ];
-		}
+		port: 8082
 	});
 });
 

@@ -32,7 +32,7 @@
                 if($scope.userForm.$dirty && $scope.userForm.$valid)
                     return true;
                 return false;
-            }
+            };            
         }
     ]);
 })();

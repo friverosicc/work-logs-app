@@ -86,7 +86,7 @@ describe('Login controller', function() {
             $dirty: true
         };
 
-        expect($scope.isPossibleTryToLogin()).toBeTruthy();
+        expect($scope.isNotPossibleTryToLogin()).toBeFalsy();
     });
 
     it('should not be possible try to login because form is invalid', function() {
@@ -95,7 +95,7 @@ describe('Login controller', function() {
            $dirty: true
        };
 
-       expect($scope.isPossibleTryToLogin()).toBeFalsy();
+       expect($scope.isNotPossibleTryToLogin()).toBeTruthy();
     });
 
     it('should not be possible try to login because form is not dirty', function() {
@@ -104,6 +104,6 @@ describe('Login controller', function() {
             $dirty: false
         };
 
-        expect($scope.isPossibleTryToLogin()).toBeFalsy();
+        expect($scope.isNotPossibleTryToLogin()).toBeTruthy();
     });
 });
