@@ -14,15 +14,19 @@
         function($scope, $state, userSession, userResource) {
             $scope.signIn = function() {
                 userResource.signIn($scope.user)
-                .then(function() {
-                    userSession.save($scope.user);
-                    $state.go('app.work-logs');
-                })
-                .catch(function(response) {
-                    $scope.error = response.data.msg;
-                    $scope.userForm.preferredWorkingHoursPerDay.$error = { serverError: true };
-                });
+                .then(_accountRegisteredSuccessfully)
+                .catch(_accountRegistrationFailed);
             };
+
+            function _accountRegisteredSuccessfully() {
+                userSession.save($scope.user);
+                $state.go('app.work-logs');
+            }
+
+            function _accountRegistrationFailed(response) {
+                $scope.error = response.data.msg;
+                $scope.userForm.preferredWorkingHoursPerDay.$error = { serverError: true };
+            }
 
             $scope.isPossibleTryToCreateAccount = function() {
                 if($scope.userForm.$dirty && $scope.userForm.$valid)
