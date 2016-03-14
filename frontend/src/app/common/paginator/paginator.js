@@ -28,7 +28,7 @@
                     _end = 0;
                 }
 
-                if(_range <= total && _end === 0) {
+                if(_range <= total && _end < _range) {
                     _end = _range;
                 } else {
                     if(_end > _total || _end === 0)

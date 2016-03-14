@@ -54,6 +54,16 @@ describe('Paginator', function() {
         expect(paginator.getEnd()).toBe(13);
     });
 
+    it('should set total > range and then change the total to < range and > to range again', function() {
+        paginator.init(0, 15, 0);
+
+        paginator.setTotal(19);
+        paginator.setTotal(1);
+        paginator.setTotal(19);
+
+        expect(paginator.getEnd()).toBe(15);
+    });
+
     it('should go to the next page', function() {
         paginator.init(0, 15, 100);
 
