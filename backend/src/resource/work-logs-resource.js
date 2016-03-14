@@ -7,7 +7,7 @@ var WorksResource = function(httpStatusCode, _, workLogDAO) {
     function create(req, res) {
         var workLog = req.body;
         workLog.username = req.params.username;
-        workLog.date = new Date(workLog.date);
+        workLog.date = new Date(parseInt(workLog.date));
         workLog.hours = parseInt(workLog.hours);
 
         workLogDAO.create(workLog)
@@ -26,8 +26,8 @@ var WorksResource = function(httpStatusCode, _, workLogDAO) {
         };
         var filter = {
             username: req.params.username,
-            dateFrom: (req.query.dateFrom) ? new Date(req.query.dateFrom) : undefined,
-            dateTo: (req.query.dateTo) ? new Date(req.query.dateTo) : undefined
+            dateFrom: (req.query.dateFrom) ? new Date(parseInt(req.query.dateFrom)) : undefined,
+            dateTo: (req.query.dateTo) ? new Date(parseInt(req.query.dateTo)) : undefined
         };
 
         var workLogsList = {
@@ -58,7 +58,7 @@ var WorksResource = function(httpStatusCode, _, workLogDAO) {
             dateTo: (req.query.dateTo) ? new Date(req.query.dateTo) : undefined
         };
 
-        workLogDAO.findSummarize(filter)        
+        workLogDAO.findSummarize(filter)
         .then(function(summarizedData) {
             _setStatusAndMakeResponse(res, httpStatusCode.SUCCESS_OK, summarizedData);
         })

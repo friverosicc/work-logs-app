@@ -4,7 +4,7 @@
   "description": "REST API of the application that stores work logs",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node src/server.js",
     "test": "node spec/unit/jasmine.js"
   },
   "author": "Francisco Riveros",
