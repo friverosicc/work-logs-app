@@ -12,7 +12,6 @@
         'workLogResource',
         'paginator',
         function($scope, $state, workLogResource, paginator) {
-            paginator.init(0, 15, 0);
             var _username = $state.params.username;
 
             $scope.search = function() {
@@ -20,10 +19,7 @@
                 var filter = _getFilter();
 
                 workLogResource.find(_username, page, filter)
-                .then(function(response) {
-                    paginator.setTotal(response.data.total);
-                    $scope.workLogs = response.data.workLogs;
-                });
+                .then(_processResponse);
             };
 
             function _getPage() {
@@ -31,14 +27,23 @@
             }
 
             function _getFilter() {
-                var filter = { dateFrom: undefined, dateTo: undefined };
+                var filter = {};
 
-                if(angular.isDefined($scope.filterForm.dateFrom))
-                    filter.dateFrom = $scope.filterForm.dateFrom.getTime();
-                if(angular.isDefined($scope.filterForm.dateTo))
-                    filter.dateTo = $scope.filterForm.dateTo.getTime();
+                if(angular.isUndefined($scope.filter))
+                    $scope.filter = {};
+                if(angular.isDefined($scope.filter.dateFrom) && $scope.filter.dateFrom)
+                    filter.dateFrom = $scope.filter.dateFrom;
+                if(angular.isDefined($scope.filter.dateTo) && $scope.filter.dateTo)
+                    filter.dateTo = $scope.filter.dateTo;
 
                 return filter;
+            }
+
+            function _processResponse(response) {
+                paginator.setTotal(response.data.total);
+
+                $scope.workLogs = response.data.workLogs;
+                $scope.labelPagination = paginator.getLabel();
             }
 
             $scope.nextPage = function() {
@@ -61,7 +66,7 @@
                 $scope.search();
             };
 
-            $scope.search();
+            $scope.firstPage();
         }
     ]);
 })();

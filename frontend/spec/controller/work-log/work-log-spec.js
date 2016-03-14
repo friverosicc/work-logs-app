@@ -39,34 +39,33 @@ describe('Work log controller', function() {
     });
 
     it('should initialize the global variable', function() {
-        $scope.filterForm = { };
+        $scope.filter = {};
         _createController();
 
         expect(paginator.init).toHaveBeenCalled();
     });
 
     it('should find the work logs of an user without filter', function() {
-        $scope.filterForm = { };
-
         _createController();
 
         $scope.search();
 
         var page = { start: paginator.getStart(), length: paginator.getRange() };
-        var filter = { dateFrom: undefined, dateTo: undefined };
+        var filter = { };
 
         _findDeferred.promise
         .then(function(response) {
             expect(workLogResourceMock.find).toHaveBeenCalledWith(_username, page, filter);
             expect($scope.workLogs).toBe(response.data.workLogs);
             expect(paginator.setTotal).toHaveBeenCalledWith(response.data.total);
+            expect(paginator.getLabel()).toBe($scope.labelPagination);
         });
 
         $timeout.flush();
     });
 
     it('should find the work logs of an user with filter', function() {
-        $scope.filterForm = { dateTo: new Date(2016, 2, 1), dateFrom: new Date(2016, 2, 13) };
+        $scope.filter = { dateTo: new Date(2016, 2, 1), dateFrom: new Date(2016, 2, 13) };
         _createController();
 
         $scope.search();
@@ -76,8 +75,8 @@ describe('Work log controller', function() {
             length: paginator.getRange()
         };
         var filter = {
-            dateFrom: $scope.filterForm.dateFrom.getTime(),
-            dateTo: $scope.filterForm.dateTo.getTime()
+            dateFrom: $scope.filter.dateFrom,
+            dateTo: $scope.filter.dateTo
         };
 
         _findDeferred.promise
@@ -91,7 +90,7 @@ describe('Work log controller', function() {
     });
 
     it('should go to the next page of work logs data', function() {
-        $scope.filterForm = {};
+        $scope.filter = {};
         _createController();
         spyOn($scope, 'search').and.callThrough();
 
@@ -102,7 +101,7 @@ describe('Work log controller', function() {
     });
 
     it('should go to the previous page of work logs data', function() {
-        $scope.filterForm = {};
+        $scope.filter = {};
         _createController();
         spyOn($scope, 'search').and.callThrough();
 
@@ -112,7 +111,7 @@ describe('Work log controller', function() {
     });
 
     it('should go to the last page of work logs data', function() {
-        $scope.filterForm = {};
+        $scope.filter = {};
         _createController();
         spyOn($scope, 'search').and.callThrough();
 
@@ -122,7 +121,7 @@ describe('Work log controller', function() {
     });
 
     it('should go to the first page of work logs data', function() {
-        $scope.filterForm = {};
+        $scope.filter = {};
         _createController();
         spyOn($scope, 'search').and.callThrough();
 

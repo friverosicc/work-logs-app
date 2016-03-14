@@ -5,8 +5,10 @@
         'ui.router',
         'ngMaterial',
         'ngMessages',
+        'angularMoment',
         'demo-app-tpl',
-        'demo-app.controller'
+        'demo-app.controller',
+        'demo-app.common.security'
     ])
     .config([
         '$urlRouterProvider',

@@ -1,0 +1,114 @@
+<div>
+<div layout="row" layout-align="center">
+    <form id="filterForm" name="filterForm" layout-gt-sm="row" layout="column" flex="90" flex-gt-md="75" layout-padding>
+
+        <div layout="column" layout-position="start" flex>
+            <span style="padding-left: 14px;">From</span>
+
+            <div layout="row" layout-position="start" flex>
+                <md-datepicker name="dateFrom" ng-model="filter.dateFrom" md-placeholder="Date from"></md-datepicker>
+            </div>
+        </div>
+
+        <div layout="column" layout-position="end" flex>
+            <span layout-position="start" flex style="padding-left: 14px;">To</span>
+
+            <div layout="row" flex>
+    			<md-datepicker name="dateTo" ng-model="filter.dateTo" md-placeholder="Date to"></md-datepicker>
+            </div>
+        </div>
+
+        <div layout="column" layout-align="center">
+            <md-button class="md-primary md-mini" ng-click="search()">Search</md-button>
+        </div>
+	</form>
+</div>
+
+<md-divider></md-divider>
+
+<!-- Title and paginator -->
+<div    layout="row"
+        layout-align="center"
+        layout-padding
+        ng-show="workLogs.length > 0">
+
+    <div 	flex="90"
+    		flex-gt-md="55"
+    		layout="row">
+
+        <div layout="row" layout-align="start" flex>
+    	      <h4 style="line-height : 36px; margin : 0;">WORK LOGS OF {{user.username | uppercase}}</h4>
+		</div>
+
+        <div layout="row" layout-align="end" flex class="div-paginator">
+            <md-menu>
+                <md-button style="margin: 0px;" ng-click="$mdOpenMenu()">{{labelPagination}}</md-button>
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ng-click="firstPage()">First page</md-button>
+                    </md-menu-item>
+
+                    <md-menu-item>
+                        <md-button ng-click="lastPage()">Last page</md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+
+            <md-button style="margin:0; min-width:0;" ng-click="previousPage()" ng-disabled="previousPageDisabled">
+                <md-icon class="material-icons">chevron_left</md-icon>
+            </md-button>
+            <md-button style="margin:0; min-width:0;" ng-click="nextPage()" ng-disabled="nextPageDisabled">
+                <md-icon class="material-icons">chevron_right</md-icon>
+            </md-button>
+        </div>
+    </div>
+</div>
+<!-- END - Title and paginator -->
+
+<!-- List of data -->
+<div    layout="row"
+        layout-align="center"
+        layout-padding
+        ng-show="workLogs.length > 0">
+
+	<md-whiteframe 	class="md-whiteframe-z1"
+					flex="90"
+					flex-gt-md="55"
+					layout-padding>
+        <md-list>
+            <md-list-item   class="md-3-line"
+                            style="position: relative;"
+                            ng-repeat="workLog in workLogs"
+                            ng-init="workLog.showOptions = false"
+                            ng-mouseover="workLog.showOptions = true"
+                            ng-mouseleave="workLog.showOptions = false">
+
+                <div class="md-list-item-text" layout-padding>
+                    <span class="md-display-1">{{workLog.hours}} hrs</span>
+                    <br/>
+                    <span class="md-title">{{workLog.date  | amDateFormat:'MM/DD/YYYY' }}</span>
+                    <p>{{workLog.note}}</p>
+                </div>
+
+                <md-menu>
+                    <md-button class="md-icon-button" ng-click="$mdOpenMenu()" ng-show="record.showOptions">
+                        <md-icon class="material-icons">more_vert</md-icon>
+                    </md-button>
+
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button ng-click="showEditForm(record)"> edit</md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                            <md-button ng-click="removeRecord(record.record_id)"> delete</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+        </md-list>
+    </md-whiteframe>
+</div>
+<!-- END - List of data -->
+</div>

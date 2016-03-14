@@ -116,7 +116,10 @@ gulp.task('connect', function() {
 	connect.server({
         root: 'dist',
 		livereload: true,
-		port: 8082
+		port: 8082,
+        middleware: function(connect, opt) {
+			return [ historyApiFallback() ];
+		}
 	});
 });
 
@@ -124,7 +127,7 @@ gulp.task('watch-mode', function() {
 	var jsWatcher = gulp.watch(['src/app/**/*.js'], ['js']);
 	var cssWatcher = gulp.watch('src/style/**/*.scss', ['css']);
     var htmlWatcher = gulp.watch('src/index.html', ['html']);
-    var tplWatcher = gulp.watch('src/controller/**/*.tpl.html', ['tpl']);
+    var tplWatcher = gulp.watch('src/app/**/*.tpl.html', ['tpl']);
 
 	function changeNotification(event) {
 		console.log('File', event.path, 'was', event.type, ', running tasks...');
