@@ -33,7 +33,7 @@ describe('Base controller', function() {
             userSession: userSession
         });
 
-        expect($scope.user).toBe(_user);
+        expect($scope.user).toEqual(_user);
         expect($state.go.calls.count()).toEqual(0);
     });
 
@@ -45,7 +45,7 @@ describe('Base controller', function() {
             userSession: userSession
         });
 
-        expect($scope.user).toEqual({});
+        expect($scope.user).toBeNull();
         expect($state.go).toHaveBeenCalledWith('login');
     });
 });

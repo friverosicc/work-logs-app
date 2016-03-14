@@ -11,8 +11,8 @@
         'userSession',
         function($scope, $state, userSession) {
             $scope.user = userSession.getUser();
-
-            if(angular.isUndefined($scope.user.username))
+                        
+            if(!$scope.user)
                 $state.go('login');
         }
     ]);

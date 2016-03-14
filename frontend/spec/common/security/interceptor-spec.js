@@ -35,7 +35,7 @@ describe('Interceptor to any state different of login', function() {
             username: 'username',
             password: 'password'
         };
-
+        
         userSession.save(user);
 
         interceptor.request(config);

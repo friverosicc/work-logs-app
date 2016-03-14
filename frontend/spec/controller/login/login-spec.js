@@ -45,12 +45,14 @@ describe('Login controller', function() {
 
     it('should login a valid user', function() {
         _areValidCredentials = true;
+        var user = $scope.user;
+        delete user.password;
 
         $scope.login();
 
         $timeout.flush();
         expect(userResource.login).toHaveBeenCalledWith($scope.user.username, $scope.user.password);
-        expect(userSession.getUser()).toBe($scope.user);
+        expect(userSession.getUser()).toEqual(user);
     });
 
     it('should go to work log list', function() {

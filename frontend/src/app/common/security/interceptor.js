@@ -4,21 +4,19 @@
     angular.module('demo-app.common.security', [
         'ui.router',
         'ngMaterial',
-        'base64',
         'demo-app.common.session'
     ])
     .factory('interceptor', [
-        '$base64',
         '$injector',
         '$q',
         'userSession',
-        function($base64, $injector, $q, userSession) {
+        function($injector, $q, userSession) {
 
             function request(config) {
-                var user = userSession.getUser();
+                var credentials = userSession.getCredentials();
 
-                if(angular.isDefined(user.username))
-                    config.headers.Authorization = 'Basic ' + $base64.encode(user.username + ':' + user.password);
+                if(credentials)
+                    config.headers.Authorization = 'Basic ' + credentials;
                 return config;
             }
 
