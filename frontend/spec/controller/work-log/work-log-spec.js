@@ -59,6 +59,8 @@ describe('Work log controller', function() {
             expect($scope.workLogs).toBe(response.data.workLogs);
             expect(paginator.setTotal).toHaveBeenCalledWith(response.data.total);
             expect(paginator.getLabel()).toBe($scope.labelPagination);
+            expect(paginator.isNextPageDisabled()).toBe($scope.nextPageDisabled);
+            expect(paginator.isPreviousPageDisabled()).toBe($scope.previousPageDisabled);
         });
 
         $timeout.flush();

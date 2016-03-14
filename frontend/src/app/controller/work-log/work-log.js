@@ -44,6 +44,8 @@
 
                 $scope.workLogs = response.data.workLogs;
                 $scope.labelPagination = paginator.getLabel();
+                $scope.nextPageDisabled = paginator.isNextPageDisabled();
+                $scope.previousPageDisabled = paginator.isPreviousPageDisabled();
             }
 
             $scope.nextPage = function() {
