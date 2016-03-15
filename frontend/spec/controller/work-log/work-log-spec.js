@@ -5,7 +5,7 @@ describe('Work log controller', function() {
         $timeout, $q, $floatingForm, paginator;
     var workLogResourceMock;
     var _username, _findDeferred, _findResult,
-        _removeDeferred, _removeResult;
+        _removeDeferred, _removeResult, _problemInTheRemovalProcess;
 
     beforeEach(module('demo-app.controller.work-log'));
 
@@ -24,8 +24,8 @@ describe('Work log controller', function() {
             $scope = $rootScope.$new();
         });
 
-        _findResult = { data: { total: 100, workLogs: [] } };
-        _removeResult = { data: { msg: 'work log deleted correctly' } };
+        _findResult = { data: { total: 0, workLogs: [] } };
+        _removeResult = { data: { msg: 'message received' } };
         _username = 'username';
         $state.params.username = _username;
 
@@ -34,6 +34,8 @@ describe('Work log controller', function() {
         spyOn(paginator, 'nextPage').and.callThrough();
         spyOn(paginator, 'previousPage').and.callThrough();
         spyOn(paginator, 'lastPage').and.callThrough();
+        spyOn($floatingForm, 'show').and.callThrough();
+        spyOn($mdToast, 'show').and.callThrough();
         spyOn(workLogResourceMock, 'find').and.callFake(function() {
             _findDeferred = $q.defer();
             _findDeferred.resolve(_findResult);
@@ -41,7 +43,11 @@ describe('Work log controller', function() {
         });
         spyOn(workLogResourceMock, 'remove').and.callFake(function() {
             _removeDeferred = $q.defer();
-            _removeDeferred.resolve(_removeResult);
+
+            if(_problemInTheRemovalProcess)
+                _removeDeferred.reject(_removeResult);
+            else
+                _removeDeferred.resolve(_removeResult);
             return _removeDeferred.promise;
         });
     });
@@ -140,11 +146,40 @@ describe('Work log controller', function() {
         expect($scope.search).toHaveBeenCalled();
     });
 
-    it('should open the form to create a new work log', function() {});
+    it('should open the form to create a new work log', function() {
+        _createController();
 
-    xit('should open the form to edit a existing work log', function() {});
+        $scope.openFormToCreate();
+
+        expect($floatingForm.show).toHaveBeenCalled();
+    });
+
+    it('should open the form to edit a existing work log', function() {
+        _createController();
+        var workLog = { _id: '1', hours: 7, date: new Date(2016, 2, 15) };
+
+        $scope.openFormToEdit(workLog);
+
+        expect($floatingForm.show).toHaveBeenCalled();
+    });
 
     it('should delete successfully a work log', function() {
+        _problemInTheRemovalProcess = false;
+        _createController();
+        var workLog = { _id: '1' };
+        spyOn($scope, 'search');
+
+        $scope.remove(workLog);
+
+
+        $timeout.flush();
+
+        expect(workLogResourceMock.remove).toHaveBeenCalledWith(_username, workLog._id);
+        expect($scope.search).toHaveBeenCalled();
+    });
+
+    it('should show a message if occurred any problem in the elimination process', function() {
+        _problemInTheRemovalProcess = true;
         _createController();
         var workLog = { _id: '1' };
         spyOn($scope, 'search');
@@ -154,10 +189,9 @@ describe('Work log controller', function() {
         $timeout.flush();
 
         expect(workLogResourceMock.remove).toHaveBeenCalledWith(_username, workLog._id);
-        expect($scope.search).toHaveBeenCalled();
+        expect($scope.search.calls.count()).toEqual(0);
+        expect($mdToast.show).toHaveBeenCalled();
     });
-
-    xit('should show a message if occurred any problem in the elimination process', function() {});
 
     function _createController() {
         $controller('workLogController', {

@@ -13,12 +13,14 @@
 
             function create(username, workLog) {
                 var url = _templateURL({ username: username });
+                workLog.date = workLog.date.getTime();
 
                 return $http.post(url, workLog);
             }
 
             function update(username, workLog) {
                 var url = _templateURLOne({ username: username, workLogId: workLog._id });
+                workLog.date = workLog.date.getTime();
 
                 return $http.put(url, workLog);
             }

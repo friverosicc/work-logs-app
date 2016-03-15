@@ -50,6 +50,9 @@
                 $scope.labelPagination = paginator.getLabel();
                 $scope.nextPageDisabled = paginator.isNextPageDisabled();
                 $scope.previousPageDisabled = paginator.isPreviousPageDisabled();
+
+                if(response.data.total > 0 && response.data.workLogs.length === 0)
+                    $scope.previousPage();
             }
 
             $scope.nextPage = function() {
@@ -81,8 +84,13 @@
                     templateUrl: 'controller/work-log/work-log-form.tpl.html',
                     locals: {
                         workLog: workLogEdit,
-                        formTitle: 'EDIT WORK LOG'
+                        formTitle: 'EDIT WORK LOG',
+                        action: 'update'
                     }
+                })
+                .then(function(msg) {
+                    $scope.search();
+                    _showMessage(msg);
                 });
             };
 
@@ -91,9 +99,14 @@
                     controller: 'workLogFormController',
                     templateUrl: 'controller/work-log/work-log-form.tpl.html',
                     locals: {
-                        workLog: { date: new Date() },
-                        formTitle: 'NEW WORK LOG'
+                        workLog: {},
+                        formTitle: 'NEW WORK LOG',
+                        action: 'create'
                     }
+                })
+                .then(function(msg) {
+                    $scope.search();
+                    _showMessage(msg);
                 });
             };
 
@@ -101,14 +114,21 @@
                 workLogResource.remove(_username, workLog._id)
                 .then(function(response) {
                     $scope.search();
-                    $mdToast.show(
-                        $mdToast.simple()
-                        .content(response.data.msg)
-                        .position('top right')
-                        .hideDelay(6000)
-                        .capsule(true)
-                    );
+                    _showMessage(response.data.msg);
+                })
+                .catch(function(response) {
+                    _showMessage(response.data.msg);
                 });
+            };
+
+            function _showMessage(msg) {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .content(msg)
+                    .position('top right')
+                    .hideDelay(6000)
+                    .capsule(true)
+                );
             };
 
             $scope.firstPage();
