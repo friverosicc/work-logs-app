@@ -4,14 +4,44 @@ var WorkLogDAO = function(mongoDBConnection, ObjectID, _) {
     var _collectionName = 'workLogs';
 
     function find(paginator, filter) {
-        var match = _generateMatch(filter);
-        var collection = mongoDBConnection.getCollection(_collectionName);
+        var promise = new Promise(function(resolve, reject) {
+            console.log('promise created ...');
+            var match = _generateMatch(filter);
+            var collection = mongoDBConnection.getCollection(_collectionName);
 
-        return collection.find(match)
-        .sort({ date: -1 })
-        .skip(paginator.start)
-        .limit(paginator.length)
-        .toArray();
+            var map = function() { emit(this.date, this.hours); };
+            var reduce = function(key, values) { return Array.sum(values); };
+            var out = { replace: 'totalHours' };
+            var query = match;
+
+            collection.mapReduce(map, reduce, { out: out, query: match }, function(error, result) {
+                if(error)
+                    return reject('error map reduce');
+
+                collection.find(match)
+                .sort({ date: -1 })
+                .skip(paginator.start)
+                .limit(paginator.length)
+                .toArray(function(error, workLogs) {
+                    if(error)
+                        return reject('error finding');
+
+                    var total = workLogs.length;
+                    var mapReduceCollection = mongoDBConnection.getCollection('totalHours');
+
+                    _.each(workLogs, function(workLog, index) {
+                        mapReduceCollection.findOne({ _id: workLog.date }, function(err, date) {
+                            workLog.totalHoursByDate = date.value;
+
+                            if(index === (total-1))
+                                resolve(workLogs);
+                        });
+                    });
+                });
+            });
+        });
+
+        return promise;
     }
 
     function findAmount(filter) {
