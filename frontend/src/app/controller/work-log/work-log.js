@@ -3,6 +3,7 @@
 
     angular.module('demo-app.controller.work-log', [
         'ui.router',
+        'ngMaterial',
         'demo-app.resource.work-log',
         'demo-app.common.paginator',
         'demo-app.common.floating-form'
@@ -10,10 +11,11 @@
     .controller('workLogController', [
         '$scope',
         '$state',
+        '$mdToast',
         'workLogResource',
         'paginator',
         '$floatingForm',
-        function($scope, $state, workLogResource, paginator, $floatingForm) {
+        function($scope, $state, $mdToast, workLogResource, paginator, $floatingForm) {
             var _username = $state.params.username;
 
             $scope.search = function() {
@@ -92,6 +94,20 @@
                         workLog: { date: new Date() },
                         formTitle: 'NEW WORK LOG'
                     }
+                });
+            };
+
+            $scope.remove = function(workLog) {
+                workLogResource.remove(_username, workLog._id)
+                .then(function(response) {
+                    $scope.search();
+                    $mdToast.show(
+                        $mdToast.simple()
+                        .content(response.data.msg)
+                        .position('top right')
+                        .hideDelay(6000)
+                        .capsule(true)
+                    );
                 });
             };
 

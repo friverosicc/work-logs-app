@@ -1,9 +1,11 @@
 'use strict';
 
 describe('Work log controller', function() {
-    var $controller, $scope, $state, $timeout, $q, $floatingForm, paginator;
+    var $controller, $scope, $state, $mdToast,
+        $timeout, $q, $floatingForm, paginator;
     var workLogResourceMock;
-    var _username, _findDeferred, _findResult;
+    var _username, _findDeferred, _findResult,
+        _removeDeferred, _removeResult;
 
     beforeEach(module('demo-app.controller.work-log'));
 
@@ -12,6 +14,7 @@ describe('Work log controller', function() {
             $controller = $injector.get('$controller');
             $q = $injector.get('$q');
             $state = $injector.get('$state');
+            $mdToast = $injector.get('$mdToast');
             $timeout = $injector.get('$timeout');
             $floatingForm = $injector.get('$floatingForm');
             paginator = $injector.get('paginator');
@@ -22,6 +25,7 @@ describe('Work log controller', function() {
         });
 
         _findResult = { data: { total: 100, workLogs: [] } };
+        _removeResult = { data: { msg: 'work log deleted correctly' } };
         _username = 'username';
         $state.params.username = _username;
 
@@ -32,10 +36,13 @@ describe('Work log controller', function() {
         spyOn(paginator, 'lastPage').and.callThrough();
         spyOn(workLogResourceMock, 'find').and.callFake(function() {
             _findDeferred = $q.defer();
-
             _findDeferred.resolve(_findResult);
-
             return _findDeferred.promise;
+        });
+        spyOn(workLogResourceMock, 'remove').and.callFake(function() {
+            _removeDeferred = $q.defer();
+            _removeDeferred.resolve(_removeResult);
+            return _removeDeferred.promise;
         });
     });
 
@@ -133,10 +140,30 @@ describe('Work log controller', function() {
         expect($scope.search).toHaveBeenCalled();
     });
 
+    it('should open the form to create a new work log', function() {});
+
+    xit('should open the form to edit a existing work log', function() {});
+
+    it('should delete successfully a work log', function() {
+        _createController();
+        var workLog = { _id: '1' };
+        spyOn($scope, 'search');
+
+        $scope.remove(workLog);
+
+        $timeout.flush();
+
+        expect(workLogResourceMock.remove).toHaveBeenCalledWith(_username, workLog._id);
+        expect($scope.search).toHaveBeenCalled();
+    });
+
+    xit('should show a message if occurred any problem in the elimination process', function() {});
+
     function _createController() {
         $controller('workLogController', {
             $scope: $scope,
             $state: $state,
+            $mdToast: $mdToast,
             paginator: paginator,
             workLogResource: workLogResourceMock,
             $floatingForm: $floatingForm
