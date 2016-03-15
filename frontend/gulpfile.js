@@ -23,6 +23,7 @@ var sassPaths = [
     'vendor/animate.css/'
 ];
 var jsVendorPaths = [
+    'vendor/jquery/dist/jquery.js',
     'vendor/angular/angular.js',
     'vendor/angular-animate/angular-animate.js',
     'vendor/angular-aria/angular-aria.js',
