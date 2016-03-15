@@ -20,7 +20,7 @@
 
             function _accountRegisteredSuccessfully() {
                 userSession.save($scope.user);
-                $state.go('app.work-logs');
+                $state.go('app.work-logs', { username: $scope.user.username });
             }
 
             function _accountRegistrationFailed(response) {
@@ -32,7 +32,7 @@
                 if($scope.userForm.$dirty && $scope.userForm.$valid)
                     return true;
                 return false;
-            };            
+            };
         }
     ]);
 })();

@@ -71,7 +71,7 @@ describe('Sign in controller', function() {
         $scope.signIn();
 
         $timeout.flush();
-        expect($state.go).toHaveBeenCalledWith('app.work-logs');
+        expect($state.go).toHaveBeenCalledWith('app.work-logs', { username: $scope.user.username });
     });
 
     it('should reject the request to create a new user account', function() {
