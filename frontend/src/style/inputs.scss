@@ -1,0 +1,15 @@
+md-datepicker.md-default-theme, md-datepicker {
+	background-color: inherit;
+	margin-right: 0px;
+	.md-datepicker-input-container {
+		padding-bottom: 2px;
+	}
+}
+
+.md-datepicker-input-mask {
+	display: none;
+}
+
+.md-datepicker-invalid {
+	border-bottom-color: white !important;
+}

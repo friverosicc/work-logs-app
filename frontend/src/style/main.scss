@@ -4,3 +4,20 @@
 
 @import 'colors';
 @import 'login';
+@import 'toolbar';
+@import 'floating-form';
+@import 'inputs';
+
+.main-content {
+	background-color: $gray-light;
+
+	md-whiteframe {
+		background-color: $white;
+	}
+}
+
+.btn-new-element {
+	position: fixed;
+	right: 5vh;
+	bottom: 5vh;
+}

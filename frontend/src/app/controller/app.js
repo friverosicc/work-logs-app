@@ -6,7 +6,8 @@
         'demo-app.controller.logout',
         'demo-app.controller.sign-in',
         'demo-app.controller.base',
-        'demo-app.controller.work-log'
+        'demo-app.controller.work-log',
+        'demo-app.controller.work-log.new'
     ])
     .controller('appController', [
 

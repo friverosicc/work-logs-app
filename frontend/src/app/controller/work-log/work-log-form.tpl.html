@@ -1,0 +1,61 @@
+<!-- Form -->
+<div    layout="column"
+        class="md-whiteframe-z5 floating-form-container">
+    <div    layout="row"
+            layout-align="space-between end"
+            layout-padding
+            class="form-header"
+            flex>
+        <div flex>
+            <span>{{formTitle}}</span>
+        </div>
+        <div layout-padding>
+            <md-icon 	class="material-icons"
+                        ng-click="hide()">
+                        clear
+            </md-icon>
+        </div>
+    </div>
+
+    <md-content layout-padding>
+		<form name="workLogForm" layout-padding>
+            <div layout="row">
+                <div layout="column">
+                    <span>Date</span>
+                    <md-datepicker name="date" ng-model="workLog.date" md-placeholder="Date" required></md-datepicker>
+                    <div class="md-input-messages-animation" ng-messages="workLogForm.date.$error">
+    					<div class="md-input-message-animation ng-scope date-error" ng-message="required">required.</div>
+                        <div class="md-input-message-animation ng-scope date-error" ng-message="valid">The entered value is not a date!</div>
+    				</div>
+                </div>
+            </div>
+
+            <md-input-container>
+                <span>Hours</span>
+                <input aria-label="calories" name="hours" type="number" ng-model="workLog.hours" required/>
+                <div ng-messages="workLogForm.hours.$error">
+                    <div ng-message="required">required.</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container style="width: 82%;">
+                <span>Note</span>
+                <textarea aria-label="work_log_note" name="note" type="text" ng-model="workLog.note" rows="5">
+                </textarea>
+			</md-input-container>
+		</form>
+
+	</md-content>
+	<div 	layout-padding
+			layout="row"
+			layout-align="center start"
+			class="form-footer">
+
+		<md-button 	class="md-raised md-primary"
+					ng-click="validate()">
+			Save
+		</md-button>
+		<md-button ng-click="hide()">Cancel</md-button>
+	</div>
+</div>
+<!-- END - Form -->

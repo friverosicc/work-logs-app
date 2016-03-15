@@ -1,0 +1,87 @@
+.floating-form-container {
+    position: fixed;
+	bottom: 0px;
+	right: 15px;
+	z-index: 21;
+	max-height: 600px;
+	max-width: 80%;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+    padding: 0px;
+
+	button {
+		color: $white;
+	}
+
+	md-content {
+		background-color: $black-light;
+		color: $white;
+
+		label {
+			color: $white;
+		}
+
+		md-input-container:not(.md-input-invalid).md-input-has-value label {
+			color: $white;
+		}
+
+		input {
+			border-color: $white;
+		}
+
+		md-input-container .md-input {
+			color: $white;
+		}
+
+		md-icon.md-default-theme, md-icon {
+			color: $white;
+		}
+
+		.md-default-theme .md-datepicker-input, .md-datepicker-input {
+			color: $white;
+		}
+
+		.md-select-value {
+			color: $white !important;
+		}
+
+		textarea {
+			border-bottom-color: $white;
+		}
+
+		.md-default-theme .md-datepicker-triangle-button .md-datepicker-expand-triangle, .md-datepicker-triangle-button .md-datepicker-expand-triangle {
+			border-top-color: $white;
+		}
+
+		.date-error {
+			color: rgb(221,44,0);
+			font-size: 12px;
+			line-height: 14px;
+		}
+
+	}
+
+	.form-header {
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+		border-bottom: 1px solid $black-border;
+		background-color: $black-light;
+		color: $blue;
+
+		md-icon {
+			cursor: pointer;
+			color: $blue;
+		}
+
+		span {
+			font-weight: 800;
+			font-size: 16px;
+		}
+	}
+
+	.form-footer {
+		border-top: 1px solid $black-border;
+		background-color: $black-light;
+		color: $blue;
+	}
+}

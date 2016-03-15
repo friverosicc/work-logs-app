@@ -1,0 +1,11 @@
+md-toolbar:not(.md-menu-toolbar).header-app {
+	background-color: $gray;
+
+	span {
+		color: $gray-text;
+	}
+
+	.btn-menu {
+		color: rgba(0,0,0,0.54);
+	}
+}

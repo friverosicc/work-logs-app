@@ -8,7 +8,7 @@
         'angularMoment',
         'demo-app-tpl',
         'demo-app.controller',
-        'demo-app.common.security'
+        'demo-app.common.security'    
     ])
     .config([
         '$urlRouterProvider',

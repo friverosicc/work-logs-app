@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Work log controller', function() {
-    var $controller, $scope, $state, $timeout, $q, paginator;
+    var $controller, $scope, $state, $timeout, $q, $floatingForm, paginator;
     var workLogResourceMock;
     var _username, _findDeferred, _findResult;
 
@@ -13,6 +13,7 @@ describe('Work log controller', function() {
             $q = $injector.get('$q');
             $state = $injector.get('$state');
             $timeout = $injector.get('$timeout');
+            $floatingForm = $injector.get('$floatingForm');
             paginator = $injector.get('paginator');
             workLogResourceMock = $injector.get('workLogResource');
 
@@ -137,7 +138,8 @@ describe('Work log controller', function() {
             $scope: $scope,
             $state: $state,
             paginator: paginator,
-            workLogResource: workLogResourceMock
+            workLogResource: workLogResourceMock,
+            $floatingForm: $floatingForm
         });
     }
 });

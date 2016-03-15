@@ -4,14 +4,16 @@
     angular.module('demo-app.controller.work-log', [
         'ui.router',
         'demo-app.resource.work-log',
-        'demo-app.common.paginator'
+        'demo-app.common.paginator',
+        'demo-app.common.floating-form'
     ])
     .controller('workLogController', [
         '$scope',
         '$state',
         'workLogResource',
         'paginator',
-        function($scope, $state, workLogResource, paginator) {
+        '$floatingForm',
+        function($scope, $state, workLogResource, paginator, $floatingForm) {
             var _username = $state.params.username;
 
             $scope.search = function() {
@@ -66,6 +68,31 @@
             $scope.firstPage = function() {
                 paginator.init(0, 15, 0);
                 $scope.search();
+            };
+
+            $scope.openFormToEdit = function(workLog) {
+                var workLogEdit = workLog;
+                workLogEdit.date = new Date(workLogEdit.date);
+
+                $floatingForm.show({
+                    controller: 'workLogFormController',
+                    templateUrl: 'controller/work-log/work-log-form.tpl.html',
+                    locals: {
+                        workLog: workLogEdit,
+                        formTitle: 'EDIT WORK LOG'
+                    }
+                });
+            };
+
+            $scope.openFormToCreate = function() {
+                $floatingForm.show({
+                    controller: 'workLogFormController',
+                    templateUrl: 'controller/work-log/work-log-form.tpl.html',
+                    locals: {
+                        workLog: { date: new Date() },
+                        formTitle: 'NEW WORK LOG'
+                    }
+                });
             };
 
             $scope.firstPage();
