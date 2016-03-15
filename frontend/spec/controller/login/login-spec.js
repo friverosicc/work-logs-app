@@ -3,7 +3,7 @@
 describe('Login controller', function() {
     var $controller, $rootScope, $scope, $state, $q, $timeout;
     var userSession, userResource;
-    var _areValidCredentials, _errorResponse;
+    var _areValidCredentials, _errorResponse, _user;
 
     beforeEach(module('demo-app.controller.login'));
     beforeEach(function() {
@@ -19,9 +19,10 @@ describe('Login controller', function() {
         });
 
         _errorResponse = { data: { msg: 'invalid user' } };
+        _user = { username: 'username', password: 'password', preferredWorkingHoursPerDay: 8 };
 
         $scope = $rootScope.$new();
-        $scope.user = { username: 'username', password: 'password' };
+        $scope.user = { username: _user.username, password: _user.password };
         $scope.loginForm = { username: {}, password: {} };
 
         spyOn($state, 'go');
@@ -32,6 +33,14 @@ describe('Login controller', function() {
                 deferred.resolve();
             else
                 deferred.reject(_errorResponse);
+            return deferred.promise;
+        });
+        spyOn(userResource, 'findOne').and.callFake(function(username) {
+            var user = { username: _user.username, preferredWorkingHoursPerDay: _user.preferredWorkingHoursPerDay };
+            delete user.password;
+
+            var deferred = $q.defer();
+            deferred.resolve({ data: user });
             return deferred.promise;
         });
 
@@ -45,13 +54,12 @@ describe('Login controller', function() {
 
     it('should login a valid user', function() {
         _areValidCredentials = true;
-        var user = $scope.user;
-        delete user.password;
+        var user = { username: _user.username, preferredWorkingHoursPerDay: _user.preferredWorkingHoursPerDay };
 
         $scope.login();
 
         $timeout.flush();
-        expect(userResource.login).toHaveBeenCalledWith($scope.user.username, $scope.user.password);
+        expect(userResource.login).toHaveBeenCalledWith(_user.username, _user.password);
         expect(userSession.getUser()).toEqual(user);
     });
 

@@ -81,7 +81,8 @@
                                 ng-repeat="workLog in workLogs"
                                 ng-init="workLog.showOptions = false"
                                 ng-mouseover="workLog.showOptions = true"
-                                ng-mouseleave="workLog.showOptions = false">
+                                ng-mouseleave="workLog.showOptions = false"
+                                ng-class="{ 'over-preferred-hours': user.preferredWorkingHoursPerDay <= workLog.totalHoursByDate,  'under-preferred-hours': user.preferredWorkingHoursPerDay > workLog.totalHoursByDate}">
 
                     <div class="md-list-item-text" layout-padding>
                         <span class="md-display-1">{{workLog.hours}} hrs</span>

@@ -19,8 +19,19 @@
             };
 
             function _validUserCredentials() {
+                var password = $scope.user.password;
                 userSession.save($scope.user);
-                $state.go('app.work-logs', { username: $scope.user.username });
+
+                userResource.findOne($scope.user.username)
+                .then(function(response) {
+                    var user = response.data;
+                    user.password = password;
+
+                    userSession.clean();
+                    userSession.save(user);
+                    $state.go('app.work-logs', { username: user.username });
+                });
+
             }
 
             function _invalidUserCredentials(response) {

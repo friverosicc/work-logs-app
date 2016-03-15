@@ -3,7 +3,7 @@
 describe('Work log controller', function() {
     var $controller, $scope, $state, $mdToast,
         $timeout, $q, $floatingForm, paginator;
-    var workLogResourceMock;
+    var workLogResourceMock, userResourceMock;
     var _username, _findDeferred, _findResult,
         _removeDeferred, _removeResult, _problemInTheRemovalProcess;
 
@@ -19,6 +19,7 @@ describe('Work log controller', function() {
             $floatingForm = $injector.get('$floatingForm');
             paginator = $injector.get('paginator');
             workLogResourceMock = $injector.get('workLogResource');
+            userResourceMock = $injector.get('userResource');
 
             var $rootScope = $injector.get('$rootScope');
             $scope = $rootScope.$new();
@@ -36,6 +37,11 @@ describe('Work log controller', function() {
         spyOn(paginator, 'lastPage').and.callThrough();
         spyOn($floatingForm, 'show').and.callThrough();
         spyOn($mdToast, 'show').and.callThrough();
+        spyOn(userResourceMock, 'findOne').and.callFake(function() {
+            var deferred = $q.defer();
+            deferred.resolve({ data: { username: 'username', preferredWorkingHoursPerDay: 8 } });
+            return deferred.promise;
+        });
         spyOn(workLogResourceMock, 'find').and.callFake(function() {
             _findDeferred = $q.defer();
             _findDeferred.resolve(_findResult);
@@ -56,6 +62,7 @@ describe('Work log controller', function() {
         $scope.filter = {};
         _createController();
 
+        $timeout.flush();
         expect(paginator.init).toHaveBeenCalled();
     });
 
@@ -189,7 +196,7 @@ describe('Work log controller', function() {
         $timeout.flush();
 
         expect(workLogResourceMock.remove).toHaveBeenCalledWith(_username, workLog._id);
-        expect($scope.search.calls.count()).toEqual(0);
+        expect($scope.search.calls.count()).toEqual(1);
         expect($mdToast.show).toHaveBeenCalled();
     });
 
@@ -200,7 +207,8 @@ describe('Work log controller', function() {
             $mdToast: $mdToast,
             paginator: paginator,
             workLogResource: workLogResourceMock,
-            $floatingForm: $floatingForm
+            $floatingForm: $floatingForm,
+            userResource: userResourceMock
         });
     }
 });

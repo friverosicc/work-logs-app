@@ -6,7 +6,8 @@
         'ngMaterial',
         'demo-app.resource.work-log',
         'demo-app.common.paginator',
-        'demo-app.common.floating-form'
+        'demo-app.common.floating-form',
+        'demo-app.resource.user'
     ])
     .controller('workLogController', [
         '$scope',
@@ -15,7 +16,8 @@
         'workLogResource',
         'paginator',
         '$floatingForm',
-        function($scope, $state, $mdToast, workLogResource, paginator, $floatingForm) {
+        'userResource',
+        function($scope, $state, $mdToast, workLogResource, paginator, $floatingForm, userResource) {
             var _username = $state.params.username;
 
             $scope.search = function() {
@@ -131,7 +133,16 @@
                 );
             };
 
-            $scope.firstPage();
+            function _init() {
+                userResource.findOne(_username)
+                .then(function(response) {
+                    $scope.user = response.data;
+                    $scope.firstPage();
+                });
+
+            }
+
+            _init();
         }
     ]);
 })();
