@@ -131,7 +131,7 @@
                     .hideDelay(6000)
                     .capsule(true)
                 );
-            };
+            }
 
             function _init() {
                 userResource.findOne(_username)

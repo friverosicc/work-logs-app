@@ -1,0 +1,82 @@
+<div    layout="column"
+        class="md-whiteframe-z5 floating-form-container">
+
+    <div    layout="row"
+            layout-align="space-between end"
+            layout-padding
+            class="form-header"
+            flex>
+        <div flex>
+            <span>{{formTitle}}</span>
+        </div>
+        <div layout-padding>
+            <md-icon 	class="material-icons"
+                        ng-click="hide()">
+                        clear
+            </md-icon>
+        </div>
+    </div>
+
+    <md-content layout-padding >
+		<form name="userForm" layout-padding>
+            <div layout="row">
+                <md-input-container>
+                    <label>Username</label>
+                    <input aria-label="username" name="username" type="text" ng-model="user.username" required ng-disabled="onEdition"/>
+                    <div ng-messages="userForm.username.$error" ng-show="userForm.username.$touched">
+    					<div ng-message="required">Required</div>
+                        <div ng-message="serverError">{{error}}</div>
+    				</div>
+    			</md-input-container>
+
+                <md-input-container ng-if="!onEdition">
+                    <label>Password</label>
+                    <input aria-label="password" name="password" type="password" ng-model="user.password" required/>
+                    <div ng-messages="userForm.password.$error">
+    					<div ng-message="required">Required</div>
+    				</div>
+    			</md-input-container>
+
+                <md-input-container ng-if="onEdition">
+                    <label>Password</label>
+                    <input aria-label="password" name="password" type="password" ng-model="user.password"/>
+    			</md-input-container>
+            </div>
+
+            <div layout="row" flex>
+                <md-input-container flex>
+                    <label>Role</label>
+                    <md-select ng-model="user.role" name="role" required>
+                        <md-option value="regular">regular</md-option>
+                        <md-option value="manager">manager</md-option>
+                        <md-option value="admin">admin</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex>
+                </md-input-container>
+            </div>
+
+            <div layout="row" flex>
+                <md-input-container>
+                    <label>Preferred working hours per day</label>
+                    <input aria-label="calories_per_day" name="preferredWorkingHoursPerDay" type="number" ng-model="user.preferredWorkingHoursPerDay" required/>
+                    <div ng-messages="userForm.preferredWorkingHoursPerDay.$error">
+    					<div ng-message="required">Required</div>
+    				</div>
+                </md-input-container>
+            </div>
+		</form>
+	</md-content>
+	<div 	layout-padding
+			layout="row"
+			layout-align="center start"
+			class="form-footer">
+
+		<md-button 	class="md-raised md-primary"
+					ng-click="save()">
+			Save
+		</md-button>
+		<md-button ng-click="hide()">Cancel</md-button>
+	</div>
+</div>
+<!-- END - Form -->

@@ -81,6 +81,15 @@
                         controller: 'workLogSummaryController'
                     }
                 }
+            })
+            .state('app.users', {
+                url: '/users',
+                views: {
+                    'app-main-content': {
+                        templateUrl: 'controller/user/users.tpl.html',
+                        controller: 'usersController'
+                    }
+                }
             });
         }
     ]);
