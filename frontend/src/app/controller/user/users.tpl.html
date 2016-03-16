@@ -56,7 +56,9 @@
                                 ng-mouseleave="user.showOptions = false">
 
                     <div class="md-list-item-text" layout-padding>
-                        <span class="md-display-1">{{user.username}}</span>                                                
+                        <span class="md-display-1" ui-sref="app.work-logs({ username: user.username })" style="cursor: pointer;">
+                            {{user.username}}
+                        </span>
                         <br/>
                         <p><i>{{user.role | uppercase}}</i> user with {{user.preferredWorkingHoursPerDay}} hours</p>
                     </div>
