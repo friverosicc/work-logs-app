@@ -19,7 +19,7 @@
         function($scope, $state, $mdToast, $floatingForm, workLogResource, workLog, formTitle, action) {
             var _username = $state.params.username;
             $scope.workLog = workLog;
-            $scope.formTitle = formTitle;
+            $scope.formTitle = formTitle;            
 
             $scope.hide = function() {
                 $floatingForm.cancel();
