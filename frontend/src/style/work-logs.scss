@@ -5,3 +5,16 @@
 .under-preferred-hours {
     border-left: 5px solid $red-light;
 }
+
+table.work-logs-summary {
+    border: 1px solid $black;
+    text-align: center;
+
+    tr, th, td {
+        border: 1px solid $black;
+    }
+    
+    li {
+        text-align: left;
+    }
+}

@@ -7,7 +7,8 @@
         'demo-app.controller.sign-in',
         'demo-app.controller.base',
         'demo-app.controller.work-log',
-        'demo-app.controller.work-log.form'
+        'demo-app.controller.work-log.form',
+        'demo-app.controller.work-log.summary'
     ])
     .controller('appController', [
 

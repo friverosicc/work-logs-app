@@ -1,0 +1,22 @@
+<div layout layout-align="center" flex>
+    <table class="work-logs-summary">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Total hours</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="sumarize in summaries">
+                <td>{{sumarize._id  | amDateFormat:'MM/DD/YYYY' }}</td>
+                <td>{{sumarize.hours}}</td>
+                <td>
+                    <ul ng-repeat="note in sumarize.notes">
+                        <li>{{note}}</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

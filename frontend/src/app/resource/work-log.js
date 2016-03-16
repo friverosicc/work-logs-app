@@ -44,18 +44,10 @@
                 return $http.get(url, { params: params });
             }
 
-            function findSummarize(username, filter) {
+            function findSummary(username, filter) {
                 var url = _templateURLSummarize({ username: username });
 
-                var params = {};
-
-                if(angular.isDefined(filter.dateTo))
-                    params.dateTo = filter.dateTo.getTime();
-
-                if(angular.isDefined(filter.dateFrom))
-                    params.dateFrom = filter.dateFrom.getTime();
-
-                return $http.get(url, { params: params });
+                return $http.get(url, { params: filter });
             }
 
             return {
@@ -63,7 +55,7 @@
                 update: update,
                 remove: remove,
                 find: find,
-                findSummarize: findSummarize
+                findSummary: findSummary
             };
         }
     ]);

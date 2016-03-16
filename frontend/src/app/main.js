@@ -8,7 +8,7 @@
         'angularMoment',
         'demo-app-tpl',
         'demo-app.controller',
-        'demo-app.common.security'    
+        'demo-app.common.security'
     ])
     .config([
         '$urlRouterProvider',
@@ -70,6 +70,15 @@
                     'app-main-content': {
                         templateUrl: 'controller/work-log/work-log.tpl.html',
                         controller: 'workLogController'
+                    }
+                }
+            })
+            .state('work-logs-summarize', {
+                url: '/users/:username/work-logs/summary?dateFrom&dateTo',
+                views: {
+                    'app-view': {
+                        templateUrl: 'controller/work-log/work-logs-summary.tpl.html',
+                        controller: 'workLogSummaryController'
                     }
                 }
             });

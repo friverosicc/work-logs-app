@@ -91,20 +91,20 @@ describe('Work log', function() {
         $httpBackend.expectGET(url)
         .respond(200, '');
 
-        workLogResource.findSummarize(_workLog.username, filter);
+        workLogResource.findSummary(_workLog.username, filter);
 
         $httpBackend.flush();
     });
 
     it('should call to find summarized data with filter', function() {
-        var filter = { dateFrom: new Date(2016, 3, 1), dateTo: new Date(2016, 3, 20) };
+        var filter = { dateFrom: new Date(2016, 3, 1).getTime(), dateTo: new Date(2016, 3, 20).getTime() };    
         var url = $interpolate(apiURLs.workLogsSummarize)({ username: _workLog.username })
-                + '?dateFrom=' + filter.dateFrom.getTime() + '&dateTo=' + filter.dateTo.getTime();
+                + '?dateFrom=' + filter.dateFrom + '&dateTo=' + filter.dateTo;
 
         $httpBackend.expectGET(url)
         .respond(200, '');
 
-        workLogResource.findSummarize(_workLog.username, filter);
+        workLogResource.findSummary(_workLog.username, filter);
 
         $httpBackend.flush();
     });

@@ -21,6 +21,12 @@
             <div layout="column" layout-align="center">
                 <md-button class="md-primary md-mini" ng-click="firstPage()">Search</md-button>
             </div>
+
+            <div layout="column" layout-align="center">                
+                <md-button ui-sref="work-logs-summarize({ username: user.username, dateFrom: filter.dateFrom.getTime(), dateTo: filter.dateTo.getTime() })" target="_blank">
+                    Exp. Summary
+                </md-button>
+            </div>
     	</form>
     </div>
 
