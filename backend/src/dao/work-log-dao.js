@@ -4,8 +4,7 @@ var WorkLogDAO = function(mongoDBConnection, ObjectID, _) {
     var _collectionName = 'workLogs';
 
     function find(paginator, filter) {
-        var promise = new Promise(function(resolve, reject) {
-            console.log('promise created ...');
+        var promise = new Promise(function(resolve, reject) {            
             var match = _generateMatch(filter);
             var collection = mongoDBConnection.getCollection(_collectionName);
 

@@ -54,9 +54,9 @@ var WorksResource = function(httpStatusCode, _, workLogDAO) {
     function findSummarize(req, res) {
         var filter = {
             username: req.params.username,
-            dateFrom: (req.query.dateFrom) ? new Date(req.query.dateFrom) : undefined,
-            dateTo: (req.query.dateTo) ? new Date(req.query.dateTo) : undefined
-        };
+            dateFrom: (req.query.dateFrom) ? new Date(parseInt(req.query.dateFrom)) : undefined,
+            dateTo: (req.query.dateTo) ? new Date(parseInt(req.query.dateTo)) : undefined
+        };        
 
         workLogDAO.findSummarize(filter)
         .then(function(summarizedData) {
