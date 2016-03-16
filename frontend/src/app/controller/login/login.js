@@ -20,7 +20,10 @@
 
             function _validUserCredentials() {
                 var password = $scope.user.password;
-                userSession.save($scope.user);
+                var credentials = {};
+                angular.copy($scope.user, credentials);                
+
+                userSession.save(credentials);
 
                 userResource.findOne($scope.user.username)
                 .then(function(response) {

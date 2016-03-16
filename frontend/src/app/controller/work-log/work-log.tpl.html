@@ -22,15 +22,23 @@
                 <md-button class="md-primary md-mini" ng-click="firstPage()">Search</md-button>
             </div>
 
-            <div layout="column" layout-align="center">                
+            <div layout="column" layout-align="center">
                 <md-button ui-sref="work-logs-summarize({ username: user.username, dateFrom: filter.dateFrom.getTime(), dateTo: filter.dateTo.getTime() })" target="_blank">
-                    Exp. Summary
+                    Export
                 </md-button>
             </div>
     	</form>
     </div>
 
     <md-divider></md-divider>
+
+    <div ng-show="workLogs.length === 0 && (!filter.dateTo && !filter.dateFrom)" layout="row" layout-align="center center">
+        <h4>THERE ARE NO WORK LOGS</h4>
+    </div>
+
+    <div ng-show="workLogs.length === 0 && (filter.dateTo || filter.dateFrom)" layout="row" layout-align="center center">
+        <h4>THERE ARE NO RESULT MATCHING</h4>
+    </div>
 
     <!-- Title and paginator -->
     <div    layout="row"

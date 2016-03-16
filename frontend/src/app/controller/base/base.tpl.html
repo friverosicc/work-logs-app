@@ -19,7 +19,31 @@
     </div>
 </md-toolbar>
 
-<!--<div layout="row" flex style="overflow: hidden;">-->
+<div layout="row" flex style="overflow: hidden;">
+	<md-sidenav class="md-sidenav-left md-whiteframe-z3 global-menu"
+		   md-component-id="menuGlobal"
+		   md-is-locked-open="true">
+
+	   <md-button 	class="md-fab md-mini md-primary" ng-click="showMySettings()">
+		   <md-tooltip>My settings</md-tooltip>
+		   <md-icon class="material-icons">settings</md-icon>
+	   </md-button>
+
+	   <md-button 	class="md-fab md-mini md-primary"
+				   ui-sref="app.work-logs({username: user.username })">
+		   <md-tooltip>My records</md-tooltip>
+		   <md-icon class="material-icons">restaurant_menu</md-icon>
+	   </md-button>
+
+	   <md-button 	class="md-fab md-mini md-primary"
+				   ui-sref="app.users()"
+				   ng-if="user.role !== 'regular'">
+		   <md-tooltip>Users</md-tooltip>
+		   <md-icon class="material-icons">people</md-icon>
+	   </md-button>
+
+   </md-sidenav>
+
     <md-content ui-view="app-main-content"
 				layout="column"
 				layout-padding
@@ -27,4 +51,4 @@
 				class="main-content"
 				style="background-color: {{ backgroundColor }}">
 	</md-content>
-<!--</div>-->
+</div>
