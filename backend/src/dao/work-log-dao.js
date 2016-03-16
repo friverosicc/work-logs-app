@@ -4,7 +4,7 @@ var WorkLogDAO = function(mongoDBConnection, ObjectID, _) {
     var _collectionName = 'workLogs';
 
     function find(paginator, filter) {
-        var promise = new Promise(function(resolve, reject) {            
+        var promise = new Promise(function(resolve, reject) {
             var match = _generateMatch(filter);
             var collection = mongoDBConnection.getCollection(_collectionName);
 
@@ -26,6 +26,9 @@ var WorkLogDAO = function(mongoDBConnection, ObjectID, _) {
                         return reject('error finding');
 
                     var total = workLogs.length;
+
+                    if(total === 0)
+                        return resolve([]);
                     var mapReduceCollection = mongoDBConnection.getCollection('totalHours');
 
                     _.each(workLogs, function(workLog, index) {

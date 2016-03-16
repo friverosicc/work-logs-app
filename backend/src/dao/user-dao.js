@@ -33,8 +33,12 @@ var UserDAO = function(mongoDBConnection, _) {
 
     function remove(username) {
         var collection = mongoDBConnection.getCollection(_collectionName);
+        var workLogsCollection = mongoDBConnection.getCollection('workLogs');
 
-        return collection.findAndRemove({ username: username });
+        return collection.findAndRemove({ username: username })
+        .then(function() {
+            return workLogsCollection.deleteMany({ username: username });
+        });
     }
 
     function update(username, user) {
