@@ -15,8 +15,9 @@
         'formTitle',
         'action',
         function($scope, $mdToast, $floatingForm, userResource, user, formTitle, action) {
-            $scope.user = user;
-            $scope.user.role = (action === 'create') ? 'regular' : user.role;
+            $scope.user = {};
+            angular.copy(user, $scope.user);
+            delete $scope.user.showOptions;            
             $scope.formTitle = formTitle;
             $scope.onEdition = (action === 'update') ? true : false;
 

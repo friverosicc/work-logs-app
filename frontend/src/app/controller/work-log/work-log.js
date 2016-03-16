@@ -24,8 +24,13 @@
                 var page = _getPage();
                 var filter = _getFilter();
 
-                workLogResource.find(_username, page, filter)
-                .then(_processResponse);
+                userResource.findOne(_username)
+                .then(function(response) {
+                    $scope.user = response.data;
+
+                    workLogResource.find(_username, page, filter)
+                    .then(_processResponse);
+                });
             };
 
             function _getPage() {
@@ -55,6 +60,7 @@
 
                 if(response.data.total > 0 && response.data.workLogs.length === 0)
                     $scope.previousPage();
+
             }
 
             $scope.nextPage = function() {
@@ -133,16 +139,7 @@
                 );
             }
 
-            function _init() {
-                userResource.findOne(_username)
-                .then(function(response) {
-                    $scope.user = response.data;
-                    $scope.firstPage();
-                });
-
-            }
-
-            _init();
+            $scope.firstPage();
         }
     ]);
 })();

@@ -1,0 +1,40 @@
+<md-dialog aria-label="User setting">
+    <form name="userForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>My settings</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="hide()">
+                    <md-icon class="material-icons" aria-label="Close dialog">clear</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div layout="column" layout-padding>
+                <md-input-container>
+                    <label>Preferred hours per day</label>
+                    <input type="number" min="0" name="preferredWorkingHoursPerDay" ng-model="user.preferredWorkingHoursPerDay" required/>
+                    <div ng-messages="userForm.preferredWorkingHoursPerDay.$error">
+    					<div ng-message="required">Required</div>
+    				</div>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Password</label>
+                    <input type="password" name="password" ng-model="user.password"/>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="hide()">
+                cancel
+            </md-button>
+            <md-button ng-click="save()" style="margin-right:20px;">
+                update
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

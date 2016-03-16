@@ -11,19 +11,22 @@
         var _userData = 'USER-DATA';
 
         function save(user) {
-            var credentials = $base64.encode(user.username + ':' + user.password);
+            var credentials;
+
+            if(angular.isDefined(user.password)) {
+                credentials = $base64.encode(user.username + ':' + user.password);
+                window.localStorage.setItem(_token, credentials);
+            }
 
             delete user.password;
-
             window.localStorage.setItem(_userData, JSON.stringify(user));
-            window.localStorage.setItem(_token, credentials);
         }
 
         function clean() {
             window.localStorage.clear();
         }
 
-        function getUser() {        
+        function getUser() {
             return JSON.parse(window.localStorage.getItem(_userData));
         }
 

@@ -196,7 +196,7 @@ describe('Work log controller', function() {
         $timeout.flush();
 
         expect(workLogResourceMock.remove).toHaveBeenCalledWith(_username, workLog._id);
-        expect($scope.search.calls.count()).toEqual(1);
+        expect($scope.search.calls.count()).toEqual(0);
         expect($mdToast.show).toHaveBeenCalled();
     });
 

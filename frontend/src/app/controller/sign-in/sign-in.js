@@ -19,6 +19,7 @@
             };
 
             function _accountRegisteredSuccessfully() {
+                $scope.user.role = 'regular';
                 userSession.save($scope.user);
                 $state.go('app.work-logs', { username: $scope.user.username });
             }

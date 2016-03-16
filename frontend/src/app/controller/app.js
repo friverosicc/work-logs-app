@@ -11,7 +11,8 @@
         'demo-app.controller.work-log.summary',
         'demo-app.controller.user',
         'demo-app.controller.user.form',
-        'demo-app.controller.unauthorized'
+        'demo-app.controller.unauthorized',
+        'demo-app.controller.setting'
     ])
     .controller('appController', [
 

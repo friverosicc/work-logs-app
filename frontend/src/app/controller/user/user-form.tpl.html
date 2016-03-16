@@ -51,6 +51,9 @@
                         <md-option value="manager">manager</md-option>
                         <md-option value="admin">admin</md-option>
                     </md-select>
+                    <div ng-messages="userForm.role.$error">
+    					<div ng-message="required">Required</div>
+    				</div>
                 </md-input-container>
                 <md-input-container flex>
                 </md-input-container>
@@ -59,7 +62,7 @@
             <div layout="row" flex>
                 <md-input-container>
                     <label>Preferred working hours per day</label>
-                    <input aria-label="calories_per_day" name="preferredWorkingHoursPerDay" type="number" ng-model="user.preferredWorkingHoursPerDay" required/>
+                    <input aria-label="calories_per_day" name="preferredWorkingHoursPerDay" type="number" min="0" ng-model="user.preferredWorkingHoursPerDay" required/>
                     <div ng-messages="userForm.preferredWorkingHoursPerDay.$error">
     					<div ng-message="required">Required</div>
     				</div>
