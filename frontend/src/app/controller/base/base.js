@@ -21,7 +21,7 @@
                 $mdDialog.show({
                     controller: 'settingController',
                     templateUrl: 'controller/setting/setting.tpl.html',
-                    locals: { user: $scope.user }
+                    locals: { user: userSession.getUser() }
                 });
             };
         }
