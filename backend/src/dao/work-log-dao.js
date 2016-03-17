@@ -35,8 +35,11 @@ var WorkLogDAO = function(mongoDBConnection, ObjectID, _) {
                         mapReduceCollection.findOne({ _id: workLog.date }, function(err, date) {
                             workLog.totalHoursByDate = date.value;
 
-                            if(index === (total-1))
+                            if(total === 1) {
                                 resolve(workLogs);
+                            } else {
+                                total--;
+                            }
                         });
                     });
                 });

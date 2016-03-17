@@ -3,7 +3,7 @@ The backend is written in Nodejs and works with a MongoDB database. The source c
 
 ### Install dependencies
     * Node.js (http://nodejs.org)
-    * MongoDB Server 2.6.10
+    * MongoDB Server
 
 To install the modules used by the backend execute:
 ```
@@ -38,3 +38,15 @@ Go to `frontend` folder, and there you have to execute `gulp tdd` for unit tests
 
 ### Start frontend app
 In the `frontend` folder execute the command `gulp server`. The application will be available on http://localhost:8082/
+
+
+### Online version of the demo project
+The URL of the demo project is http://demo.mindaft.com/
+
+Actually, there are three users created
+
+    * username: 'admin', password: 'admin'
+    * username: 'manager', password: 'manager'
+    * username: 'regular', password: 'regular'
+
+One user for each role.
