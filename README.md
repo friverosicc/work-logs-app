@@ -1,3 +1,5 @@
+This application is a simple time management system.
+
 ## Backend (API)
 The backend is written in Nodejs and works with a MongoDB database. The source code is inside `backend` folder.
 
