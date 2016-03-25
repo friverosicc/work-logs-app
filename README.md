@@ -45,7 +45,7 @@ In the `frontend` folder execute the command `gulp server`. The application will
 ### Online version of the demo project
 The URL of the demo project is http://demo.mindaft.com/
 
-Actually, there are three users created
+Currently, there are three users created
 
     * username: 'admin', password: 'admin'
     * username: 'manager', password: 'manager'
